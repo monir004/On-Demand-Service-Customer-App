@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">Dhaka Setup</string>
+    <string name="FACEBOOK_APP_ID">184823412237565</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">2b2df2a3df6b6918641d60b7c47db8da</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_order">Orders</string>
+    <string name="nav_notification">Notification</string>
+    <string name="nav_person">Personal</string>
+
+</resources>
