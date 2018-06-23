@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,8 @@ public class SubcatActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("All subcats");
+        getSupportActionBar().setTitle("All Services");
+
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
@@ -84,6 +86,12 @@ public class SubcatActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             //
@@ -100,10 +108,10 @@ public class SubcatActivity extends AppCompatActivity {
         List<Category> categories = Data.getInstance(this).getData();
         for (int i=0; i<categories.size(); i++){
             String cat_name = categories.get(i).getCat_name();
-            int section = Integer.parseInt(categories.get(i).getCat_id());
+//            int section = Integer.parseInt(categories.get(i).getCat_id());
             List<Subcat> subcatList = categories.get(i).getSubcats();
-            viewPagerAdapter.addFragment(SubcatFragment.newInstance(section,subcatList),cat_name);
-            Log.d("category_id", "onResponse: section="+section+", cat_id="+cat_name);
+            viewPagerAdapter.addFragment(SubcatFragment.newInstance(i,subcatList),cat_name);
+            Log.d("category_id", "onResponse: section="+i+", cat_id="+cat_name);
             tabLayout.addTab(tabLayout.newTab().setText(cat_name));
 
         }
@@ -234,7 +242,7 @@ public class SubcatActivity extends AppCompatActivity {
             //load(cat_id,cat_name,recyclerView);*/
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-            SubcatAdapter adapter = new SubcatAdapter(subcats,getContext());
+            SubcatAdapter adapter = new SubcatAdapter(subcats,getArguments().getInt(ARG_SECTION_NUMBER),getContext());
             recyclerView.setAdapter(adapter);
             return rootView;
         }
@@ -248,7 +256,7 @@ public class SubcatActivity extends AppCompatActivity {
             ServiceAdapter adapter = new ServiceAdapter(subcats,getContext());
             recyclerView.setAdapter(adapter);
         }*/
-
+        /*
         private void load(int cat, String cat_name, final RecyclerView recyclerView) {
             final ProgressDialog prog = new ProgressDialog(this.getActivity());
             prog.setMessage("Loading from API");
@@ -290,6 +298,6 @@ public class SubcatActivity extends AppCompatActivity {
 
             RequestQueue queue = Volley.newRequestQueue(this.getContext());
             queue.add(request);
-        }
+        }*/
     }
 }

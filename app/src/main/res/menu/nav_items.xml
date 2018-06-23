@@ -6,16 +6,16 @@
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/nav_home" />
+
+    <item
+        android:id="@+id/nav_personal"
+        android:icon="@drawable/dhaka_setup_icon"
+        android:title="@string/nav_person" />
+
     <item
         android:id="@+id/nav_order"
         android:icon="@drawable/ic_assignment_black_24dp"
         android:title="@string/nav_order" />
-    <item
-        android:id="@+id/nav_notify"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/nav_notification" />
-    <item
-        android:id="@+id/nav_personal"
-        android:icon="@drawable/ic_person_black_24dp"
-        android:title="@string/nav_person" />
+
+
 </menu>

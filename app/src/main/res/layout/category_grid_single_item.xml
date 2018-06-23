@@ -3,10 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/category_grid_root"
     android:clickable="true"
+    android:layout_margin="10dp"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="80dp"
+    android:background="#c7c7c7"
     android:gravity="center"
     android:orientation="vertical">
+
+
 
     <ImageView
         android:id="@+id/category_grid_image"

@@ -11,6 +11,9 @@ public class Service {
             srvice,srvDetails,srvQty,srvPrice,srvStatus,srvImage,
             created,modified,vendor,vendor_mobile;
 
+    public Service() {
+    }
+
     public Service(String imgLink, String title, String price) {
         this.imgLink = imgLink;
         this.title = title;

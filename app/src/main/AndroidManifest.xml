@@ -36,8 +36,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ServiceActivity" />
-        <activity android:name=".EditprofileActivity"></activity>
+        <activity android:name=".Service1Activity" />
+        <activity android:name=".EditprofileActivity" />
+        <activity android:name=".ServiceItemActivity">
+
+        </activity>
     </application>
 
 </manifest> <!-- android:icon="@mipmap/ic_launcher" -->

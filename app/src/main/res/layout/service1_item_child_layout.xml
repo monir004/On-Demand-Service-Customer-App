@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#f4f4f4"
+    android:layout_height="50dp">
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/service1_item_child"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textSize="10sp"
+            android:maxLines="5"
+            android:text="Cooling of the AC depends on multiple factors such as age of the AC, quality of the gas filled, pressure of the gas etc. and Servicing alone does not guarantee improvement in the cooling."/>
+    </RelativeLayout>
+
+</LinearLayout>
