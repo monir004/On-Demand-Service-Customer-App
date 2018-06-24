@@ -38,9 +38,8 @@
         </activity>
         <activity android:name=".Service1Activity" />
         <activity android:name=".EditprofileActivity" />
-        <activity android:name=".ServiceItemActivity">
-
-        </activity>
+        <activity android:name=".ServiceItemActivity"></activity>
+        <activity android:name=".CartActivity"></activity>
     </application>
 
 </manifest> <!-- android:icon="@mipmap/ic_launcher" -->

@@ -63,6 +63,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:visibility="gone"
                     android:src="@drawable/ic_person_black_24dp"
                     android:tint="#6b6b6b" />
 
@@ -72,15 +73,19 @@
                     android:layout_marginTop="20dp"
                     android:text="Name:" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/usernameET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="Dummy Name"
+                    android:text=""
+                    android:inputType="textNoSuggestions"
+                    android:focusable="false"
                     android:textColor="#000000"
                     android:textSize="15sp" />
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="5dp"
@@ -97,11 +102,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="+8801521220462"
+                    android:text=""
                     android:textColor="#000000"
                     android:textSize="15sp" />
 
                 <View
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="5dp"
@@ -111,18 +117,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Userid:" />
+                    android:text="Email:" />
 
-                <TextView
-                    android:id="@+id/useridTextView"
+                <EditText
+                    android:id="@+id/emailEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="21028590015623"
+                    android:text=""
+                    android:inputType="textNoSuggestions"
                     android:textColor="#000000"
+                    android:focusable="false"
                     android:textSize="15sp" />
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="5dp"
@@ -134,15 +143,19 @@
                     android:layout_marginTop="20dp"
                     android:text="Address:" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/addressET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="House: 4, Road: 8, Block: A, Mirpur 10, Dhaka 1216"
+                    android:text=""
+                    android:inputType="textNoSuggestions"
                     android:textColor="#000000"
+                    android:focusable="false"
                     android:textSize="15sp" />
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="5dp"
@@ -160,7 +173,7 @@
                         android:layout_margin="20dp"
                         android:background="@color/colorPrimary"
                         android:padding="5dp"
-                        android:text="Edit"
+                        android:text="UPDATE"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp" />

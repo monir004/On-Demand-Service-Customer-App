@@ -21,6 +21,7 @@ import java.util.List;
 public class Data {
 
     private static Data data = null;
+    public static Cart cart = null;
 
     private List<Category> categories = new ArrayList<>();
 
@@ -30,6 +31,14 @@ public class Data {
             Log.d("testdata","new instance, non static");
         }
         return data;
+    }
+
+    public static synchronized Cart getCart(Context context){
+        if (cart == null){
+            cart = new Cart();
+            Log.d("testdata","new instance, non static");
+        }
+        return cart;
     }
 
     public List<Category> getData() {
@@ -49,10 +58,26 @@ public class Data {
         }
     }
 
+    public Service getService(int srvID){
+        for (int i = 0; i < categories.size(); i++){
+            Category testCat = categories.get(i);
+            for (int j = 0; j < testCat.getSubcats().size(); j++){
+                Subcat testSub = testCat.getSubcats().get(j);
+                for (int k = 0; k < testSub.getServices().size(); k++){
+                    Service testsrv = testSub.getServices().get(k);
+                    if(Integer.parseInt(testsrv.getSrv_sl())==srvID){
+                        return testsrv;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public  void load(final Context context) {
 
         StringRequest request = new StringRequest(Request.Method.GET,
-                "http://www.dhakasetup.com/api/repo.php",
+                "http://www.dhakasetup.com/api/prop.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -80,7 +105,7 @@ public class Data {
                                     int srvCounter = subcatObj.getInt("srvCounter");
                                     if (srvCounter == 0);
                                         //continue;
-                                    //Log.d("srvCounter", "srvCounter: "+srvCounter+" name "+subcat_name);
+                                    Log.d("srvCounter", "srvCounter: "+srvCounter+" name "+subcat_name);
                                     JSONArray srvArray = subcatObj.getJSONArray("srvArray");
 
                                     for (int k = 0; k < srvArray.length(); k++){
@@ -91,6 +116,23 @@ public class Data {
                                         String srvPrice = srvObject.getString("srvPrice");
                                         String srvImage = srvObject.getString("srvImage");
                                         Service srv = new Service(srv_sl,srvice,srvDetails,srvPrice,srvImage);
+                                        int propCounter = srvObject.getInt("propCounter");
+                                        if (propCounter == 0);
+                                        List<ServiceProp> propList = new ArrayList<>();
+                                        Log.d("srvCounter","k = "+k);
+                                        JSONArray propArray = srvObject.getJSONArray("propArray");
+                                        for (int m=0; m<propCounter; m++){
+                                            JSONObject propObj = propArray.getJSONObject(m);
+                                            int prop_id = Integer.parseInt(propObj.getString("prop_id"));
+                                            String name = propObj.getString("name");
+                                            int min = Integer.parseInt(propObj.getString("min"));
+                                            Double price = Double.parseDouble(propObj.getString("price"));
+                                            String parent_srv_sl = propObj.getString("srv_sl");
+                                            ServiceProp prop = new ServiceProp(prop_id,name,min,50,min,price,srv);
+                                            Log.d("srvCounter","m = "+m);
+                                            propList.add(prop);
+                                        }
+                                        srv.setServiceProps(propList);
                                         srvList.add(srv);
                                     }
 

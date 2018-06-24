@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <ImageView
+        android:id="@+id/cart_item_image"
+        android:layout_margin="5dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/logo"/>
+
+    <TextView
+        android:id="@+id/cart_item_srvice"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/cart_item_image"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="Ac repairing"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cart_item_srvice"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/cart_item_image"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unit: "/>
+
+            <TextView
+                android:id="@+id/cart_item_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"></TextView>
+        </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/cart_item_amount"
+        android:layout_alignParentBottom="true"
+        android:layout_marginVertical="10dp"
+        android:text="৳"/>
+
+    <TextView
+        android:id="@+id/cart_item_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="500"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginVertical="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/greyLight"
+        android:layout_marginHorizontal="5dp"
+        android:layout_alignParentBottom="true"></View>
+
+</RelativeLayout>

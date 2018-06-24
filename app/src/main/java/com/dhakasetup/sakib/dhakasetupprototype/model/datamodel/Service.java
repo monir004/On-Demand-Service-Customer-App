@@ -1,5 +1,7 @@
 package com.dhakasetup.sakib.dhakasetupprototype.model.datamodel;
 
+import java.util.List;
+
 /**
  * Created by Nazmus Sakib on 05,April,2018
  * sakib6900@gmail.com
@@ -10,6 +12,8 @@ public class Service {
     String srv_sl,srvCategory,srvSubCategory,
             srvice,srvDetails,srvQty,srvPrice,srvStatus,srvImage,
             created,modified,vendor,vendor_mobile;
+    int qty,count;
+    List<ServiceProp> serviceProps;
 
     public Service() {
     }
@@ -26,6 +30,35 @@ public class Service {
         this.srvDetails = srvDetails;
         this.srvPrice = srvPrice;
         this.srvImage = srvImage;
+    }
+
+    public void incCount(){
+        count++;
+    }
+    public void decCount(){
+        count--;
+    }
+    public int getCount() {
+        return count;
+    }
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public List<ServiceProp> getServiceProps() {
+        return serviceProps;
+    }
+
+    public void setServiceProps(List<ServiceProp> serviceProps) {
+        this.serviceProps = serviceProps;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 
     public String getSrv_sl() {

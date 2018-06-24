@@ -81,9 +81,10 @@ public class Service1Adapter extends BaseExpandableListAdapter {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,services.get(groupPosition).getSrvice(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context,services.get(groupPosition).getSrvice(),Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(context, ServiceItemActivity.class);
-                intent.putExtra("srvice",services.get(groupPosition).getSrv_sl());
+                intent.putExtra("srviceID",services.get(groupPosition).getSrv_sl());
                 context.startActivity(intent);
             }
         });

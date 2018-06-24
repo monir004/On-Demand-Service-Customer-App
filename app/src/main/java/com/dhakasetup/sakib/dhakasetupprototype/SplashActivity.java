@@ -19,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        Data.getCart(this).clear();
         Data.getInstance(this).load(this);
         final Handler handler = new Handler();
         Runnable runnable = new Runnable() {

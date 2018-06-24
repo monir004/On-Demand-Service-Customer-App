@@ -1,5 +1,6 @@
 package com.dhakasetup.sakib.dhakasetupprototype;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 
 import com.dhakasetup.sakib.dhakasetupprototype.adapter.Service1Adapter;
@@ -99,6 +101,8 @@ public class Service1Activity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main,menu);
+        MenuItem menuItem = menu.findItem(R.id.action_cart);
+        menuItem.setIcon(MenuPainter.paint(Service1Activity.this,Data.getCart(this).size(),R.drawable.ic_action_cart));
         return true;
     }
 
@@ -107,7 +111,18 @@ public class Service1Activity extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home){
             //
         }
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_cart:
+
+                Intent intent = new Intent(this,CartActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_search:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     @Override

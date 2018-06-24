@@ -1,6 +1,7 @@
 package com.dhakasetup.sakib.dhakasetupprototype;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -88,6 +89,8 @@ public class SubcatActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main,menu);
+        MenuItem menuItem = menu.findItem(R.id.action_cart);
+        menuItem.setIcon(MenuPainter.paint(SubcatActivity.this,Data.getCart(this).size(),R.drawable.ic_action_cart));
         return true;
     }
 
@@ -96,7 +99,17 @@ public class SubcatActivity extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home){
             //
         }
-        return super.onOptionsItemSelected(item);
+        Toast.makeText(this,"subcatActivity",Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.action_cart:
+                Intent intent = new Intent(this,CartActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_search:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     @Override
     public boolean onSupportNavigateUp() {

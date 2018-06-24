@@ -3,6 +3,7 @@ package com.dhakasetup.sakib.dhakasetupprototype.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,11 @@ import android.widget.TextView;
 
 import com.dhakasetup.sakib.dhakasetupprototype.R;
 import com.dhakasetup.sakib.dhakasetupprototype.ServiceItemActivity;
+import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Data;
+import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Service;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.ServiceProp;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class ServiceItemAdapter extends RecyclerView.Adapter<ServiceItemAdapter.ServiceItemVH> {
@@ -23,10 +27,13 @@ public class ServiceItemAdapter extends RecyclerView.Adapter<ServiceItemAdapter.
     private Context context;
     List<ServiceProp> serviceProps;
     private static final int  INC = 1,DEC = 2,CHECK = 3,UNCHECK = 4;
+    NumberFormat nf = NumberFormat.getInstance(); // get instance
+
 
     public ServiceItemAdapter(Context context, List<ServiceProp> serviceProps) {
         this.context = context;
         this.serviceProps = serviceProps;
+        nf.setMaximumFractionDigits(2);
     }
 
     @NonNull
@@ -43,12 +50,13 @@ public class ServiceItemAdapter extends RecyclerView.Adapter<ServiceItemAdapter.
         holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int c = Integer.parseInt(prop.getCount());
-                int max = Integer.parseInt(prop.getMax());
+                Log.d("cart", "onBindViewHolder(@NonNull final ServiceItemVH holder, int position): ");
+                int c = Data.getCart(context).getServiceProp(prop.getId()).getCount();
+                int max = Data.getCart(context).getServiceProp(prop.getId()).getMax();
                 if (c < max){
                     c++;
-                    prop.setCount(String.valueOf(c));
-                    holder.count.setText(String.valueOf(c));
+                    holder.count.setText(nf.format(c));
+                    Log.d("cart", "plus count "+String.valueOf(c)+".");
                     updateTotal(prop,INC);
                 }
             }
@@ -56,12 +64,12 @@ public class ServiceItemAdapter extends RecyclerView.Adapter<ServiceItemAdapter.
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int c = Integer.parseInt(prop.getCount());
-                int min = Integer.parseInt(prop.getMin());
+                int c = Data.getCart(context).getServiceProp(prop.getId()).getCount();
+                int min = Data.getCart(context).getServiceProp(prop.getId()).getMin();
                 if (c > min){
                     c--;
-                    prop.setCount(String.valueOf(c));
-                    holder.count.setText(String.valueOf(c));
+                    holder.count.setText(nf.format(c));
+                    Log.d("cart", "minus count "+String.valueOf(c)+".");
                     updateTotal(prop,DEC);
                 }
             }
@@ -71,7 +79,7 @@ public class ServiceItemAdapter extends RecyclerView.Adapter<ServiceItemAdapter.
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     holder.counter_btn.setVisibility(View.VISIBLE);
-                    holder.count.setText(prop.getMin());
+                    holder.count.setText(String.valueOf(prop.getMin()));
                     updateTotal(prop,CHECK);
                 }
                 else{
@@ -84,26 +92,36 @@ public class ServiceItemAdapter extends RecyclerView.Adapter<ServiceItemAdapter.
 
     void updateTotal(ServiceProp prop,int flag){
         ServiceItemActivity activity = (ServiceItemActivity) context;
-        int subtotal = Integer.parseInt(activity.subtotal.getText().toString());
-        int price = Integer.parseInt(prop.getPrice());
+        //Double subtotal = Double.parseDouble(activity.subtotal.getText().toString());
+        Double subtotal = Data.getCart(context).total();
+        Double price = prop.getPrice();
         switch (flag){
             case INC:
                 subtotal += price;
+                Data.getCart(context).updateQty(prop.getId(),1);
                 break;
             case DEC:
                 subtotal -= price;
+                Data.getCart(context).updateQty(prop.getId(),-1);
                 break;
             case CHECK:
-                subtotal += price*Integer.parseInt(prop.getMin());
-                prop.setCount(String.valueOf(prop.getMin()));
+                int qty = prop.getMin();
+                subtotal += price*qty;
+                prop.setCount(prop.getMin());
+                Data.getCart(context).addServiceProp(prop);
+                ((ServiceItemActivity) context).cart_counter++;
+                ((ServiceItemActivity) context).invalidateOptionsMenu();
                 break;
             case UNCHECK:
-                subtotal -= price*Integer.parseInt(prop.getCount());
+                subtotal -= price*prop.getCount();
+                Data.getCart(context).removeServiceProp(prop.getId());
+                ((ServiceItemActivity) context).cart_counter--;
+                ((ServiceItemActivity) context).invalidateOptionsMenu();
                 break;
 
         }
-
-        activity.subtotal.setText(String.valueOf(subtotal));
+        Log.d("cart","subtotal: "+String.valueOf(subtotal.intValue()));
+        activity.subtotal.setText(String.valueOf(nf.format(subtotal)));
     }
 
     @Override
