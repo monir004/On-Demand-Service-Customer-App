@@ -7,5 +7,6 @@
     <string name="nav_order">Orders</string>
     <string name="nav_notification">Notification</string>
     <string name="nav_person">DhakaSetup</string>
+    <string name="bdt">৳</string>
 
 </resources>

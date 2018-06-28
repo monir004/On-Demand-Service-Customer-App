@@ -1,6 +1,7 @@
 package com.dhakasetup.sakib.dhakasetupprototype.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,9 +11,11 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dhakasetup.sakib.dhakasetupprototype.R;
+import com.dhakasetup.sakib.dhakasetupprototype.ServiceItemActivity;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Data;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Service;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.ServiceProp;
@@ -42,7 +45,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartVH> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartVH holder, int position) {
+    public void onBindViewHolder(@NonNull CartVH holder, final int position) {
         if(position<services.size()){
             Service prop = services.get(position);
             holder.srvice.setText(prop.getSrvice());
@@ -57,6 +60,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartVH> {
             holder.unit.setText(nf.format(prop.getCount()));
             holder.price.setText(nf.format(prop.getPrice()*prop.getCount()));
         }
+        holder.root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String srvID;
+                if(position<services.size())
+                    srvID = services.get(position).getSrv_sl();
+                else
+                    srvID = serviceProps.get(position - services.size()).getService().getSrv_sl();
+                Intent intent = new Intent(context, ServiceItemActivity.class);
+                intent.putExtra("srviceID",srvID);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -67,8 +83,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartVH> {
     public class CartVH extends RecyclerView.ViewHolder{
         ImageView srvImg;
         TextView srvice,unit,price;
+        RelativeLayout root;
         public CartVH(View itemView) {
             super(itemView);
+            root = itemView.findViewById(R.id.cart_root);
             srvImg = itemView.findViewById(R.id.cart_item_image);
             srvice = itemView.findViewById(R.id.cart_item_srvice);
             unit = itemView.findViewById(R.id.cart_item_unit);

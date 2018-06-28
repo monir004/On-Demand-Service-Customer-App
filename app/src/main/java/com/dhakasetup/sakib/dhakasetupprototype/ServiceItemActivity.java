@@ -68,7 +68,10 @@ public class ServiceItemActivity extends AppCompatActivity {
             no_prop.setVisibility(View.GONE);
         else{
             recyclerView.setVisibility(View.GONE);
-
+            Service prevSrv = Data.getCart(this).getService(srvID);
+            if (prevSrv != null){
+                count_tv_no.setText(String.valueOf(prevSrv.getCount()));
+            }
             plus_no.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

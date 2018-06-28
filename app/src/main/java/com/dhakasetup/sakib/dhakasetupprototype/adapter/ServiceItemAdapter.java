@@ -45,8 +45,25 @@ public class ServiceItemAdapter extends RecyclerView.Adapter<ServiceItemAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final ServiceItemVH holder, int position) {
-        final ServiceProp prop = serviceProps.get(position);
+        final ServiceProp prop ;
+
+        ServiceProp prop1 = serviceProps.get(position);
+        ServiceProp propold = Data.getCart(context).getServiceProp(prop1.getId());
+        if(propold != null) {
+            prop = propold;
+        }
+        else {
+            prop = serviceProps.get(position);
+        }
+
+
         holder.checkBox.setText(prop.getPropName());
+        ServiceProp prevProp = Data.getCart(context).getServiceProp(prop.getId());
+        if(prevProp != null) {
+            holder.counter_btn.setVisibility(View.VISIBLE);
+            holder.checkBox.setChecked(true);
+            holder.count.setText(String.valueOf(prevProp.getCount()));
+        }
         holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

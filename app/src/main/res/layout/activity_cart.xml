@@ -45,6 +45,10 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
+            android:padding="3dp"
+            android:tint="@color/colorPrimary"
+            android:background="@color/transparent"
+            android:scaleType="fitCenter"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_add_circle_black_24dp" />
     </RelativeLayout>
@@ -65,6 +69,16 @@
         android:layout_below="@id/addmoreservline">
 
     </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="tap on the cart items to edit"
+        android:textSize="10sp"
+        android:layout_marginBottom="3dp"
+        android:layout_above="@id/subtotal_root"
+        android:textStyle="italic"/>
 
     <RelativeLayout
         android:id="@+id/subtotal_root"

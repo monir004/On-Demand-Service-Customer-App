@@ -27,6 +27,7 @@ repositories {
 dependencies {
     implementation 'com.facebook.android:account-kit-sdk:4.+'
     implementation 'com.google.android.gms:play-services-base:11.6.0'
+
 }
 
 dependencies {
@@ -46,6 +47,10 @@ dependencies {
 
 dependencies {
     implementation 'com.github.iammert:ExpandableLayout:1.4.1'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
 }
 
 dependencies {

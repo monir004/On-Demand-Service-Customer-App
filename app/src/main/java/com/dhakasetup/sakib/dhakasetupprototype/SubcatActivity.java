@@ -99,7 +99,7 @@ public class SubcatActivity extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home){
             //
         }
-        Toast.makeText(this,"subcatActivity",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"subcatActivity",Toast.LENGTH_SHORT).show();
         switch (item.getItemId()) {
             case R.id.action_cart:
                 Intent intent = new Intent(this,CartActivity.class);
@@ -124,7 +124,7 @@ public class SubcatActivity extends AppCompatActivity {
 //            int section = Integer.parseInt(categories.get(i).getCat_id());
             List<Subcat> subcatList = categories.get(i).getSubcats();
             viewPagerAdapter.addFragment(SubcatFragment.newInstance(i,subcatList),cat_name);
-            Log.d("category_id", "onResponse: section="+i+", cat_id="+cat_name);
+            //Log.d("category_id", "onResponse: section="+i+", cat_id="+cat_name);
             tabLayout.addTab(tabLayout.newTab().setText(cat_name));
 
         }

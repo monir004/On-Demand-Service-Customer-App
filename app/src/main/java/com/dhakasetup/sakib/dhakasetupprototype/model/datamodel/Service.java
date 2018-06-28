@@ -1,5 +1,9 @@
 package com.dhakasetup.sakib.dhakasetupprototype.model.datamodel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -30,6 +34,21 @@ public class Service {
         this.srvDetails = srvDetails;
         this.srvPrice = srvPrice;
         this.srvImage = srvImage;
+    }
+
+    public JSONObject toJSON(){
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("serviceID",Integer.parseInt(srv_sl));
+            obj.put("servicename",srvice);
+            obj.put("srvImage",srvImage);
+            obj.put("serviceprice",Integer.parseInt(srvPrice));
+            obj.put("servicequantity",count);
+            obj.put("servicetotal",Integer.parseInt(srvPrice)*count);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
     public void incCount(){

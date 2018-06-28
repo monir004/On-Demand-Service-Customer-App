@@ -7,4 +7,8 @@
     <color name="black">#000000</color>
     <color name="grey">#9c9c9c</color>
     <color name="greyLight">#cfcfcf</color>
+    <color name="ongoing">#026fae</color>
+    <color name="served">#1e862e</color>
+    <color name="cancelled">#e21313</color>
+    <color name="white">#ffffff</color>
 </resources>

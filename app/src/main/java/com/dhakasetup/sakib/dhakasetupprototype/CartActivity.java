@@ -7,25 +7,39 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.dhakasetup.sakib.dhakasetupprototype.adapter.CartAdapter;
 import com.dhakasetup.sakib.dhakasetupprototype.adapter.SubcatAdapter;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Category;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Data;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Service;
 
+import org.json.JSONObject;
+
 import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CartActivity extends AppCompatActivity {
     Toolbar toolbar;
     Context context;
     ImageButton add_more;
+    Button place_order;
     public TextView subtotal,savings;
     List<Category> categories;
     public int cart_counter = 0;
@@ -42,6 +56,7 @@ public class CartActivity extends AppCompatActivity {
         subtotal = findViewById(R.id.service1_item_subtotal);
         savings = findViewById(R.id.service1_item_savings);
         add_more = findViewById(R.id.cart_add_more);
+        place_order = findViewById(R.id.place_order_btn);
 
         categories = Data.getInstance(this).getData();
         context = this;
@@ -70,6 +85,14 @@ public class CartActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        place_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject obj = Data.place_order(context);
+                send_cart("http://www.dhakasetup.com/api/order/orderpost.php",obj);
             }
         });
     }
@@ -107,4 +130,38 @@ public class CartActivity extends AppCompatActivity {
         finish();
         return true;
     }
+
+    public void send_cart(String url, final JSONObject jObject){
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("profileres", response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("orderdata", jObject.toString());
+
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(postRequest);
+    }
+
+
 }

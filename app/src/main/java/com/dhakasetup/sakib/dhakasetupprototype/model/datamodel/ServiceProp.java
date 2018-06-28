@@ -1,5 +1,8 @@
 package com.dhakasetup.sakib.dhakasetupprototype.model.datamodel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ServiceProp {
     String PropName;
     int Min,Max,Count;
@@ -15,6 +18,27 @@ public class ServiceProp {
         Count = count;
         Price = price;
         Service = service;
+    }
+
+    public JSONObject toJSON(){
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("prop_id",this.id);
+            obj.put("prop_name",this.PropName);
+            obj.put("prop_qty",this.Price);
+            obj.put("prop_price",this.Count);
+            obj.put("prop_total",this.Price.intValue()*this.Count);
+
+            obj.put("serviceID",Integer.parseInt(this.Service.srv_sl));
+            obj.put("servicename",this.Service.srvice);
+            obj.put("serviceprice",null);
+            obj.put("servicequantity",null);
+            obj.put("servicetotal",null);
+            obj.put("srvImage",this.Service.srvImage);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
     public int getId() {
