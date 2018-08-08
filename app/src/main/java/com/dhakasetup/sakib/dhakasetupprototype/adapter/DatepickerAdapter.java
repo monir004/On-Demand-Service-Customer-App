@@ -98,6 +98,7 @@ public class DatepickerAdapter extends RecyclerView.Adapter <DatepickerAdapter.D
         holder.date.setText(date);
         holder.month.setText(month);
         holder.day.setText(day);
+
     }
 
     public class DateVH extends RecyclerView.ViewHolder{
