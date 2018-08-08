@@ -13,8 +13,6 @@ import com.dhakasetup.sakib.dhakasetupprototype.model.AdBanner;
 import com.dhakasetup.sakib.dhakasetupprototype.viewholder.AdBannerItemVH;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 
 /**
  * Created by Nazmus Sakib on 03,April,2018

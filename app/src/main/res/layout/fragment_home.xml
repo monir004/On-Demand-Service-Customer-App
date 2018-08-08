@@ -12,6 +12,7 @@
         android:background="@color/colorPrimary">
 
         <RelativeLayout
+            android:id="@+id/home_search_layout"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginTop="15dp"
@@ -36,24 +37,12 @@
                 android:layout_marginRight="5dp"
                 android:scaleType="fitXY"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/notification"
-                android:background="@color/transparent"
-                android:tint="@color/colorPrimary"
-                android:minHeight="40dp"
-                android:padding="0dp"/>
-
-            <ImageButton
-                android:id="@+id/home_search_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@id/home_notification"
-                android:scaleType="fitXY"
                 android:src="@drawable/ic_action_search"
                 android:background="@color/transparent"
                 android:tint="@color/colorPrimary"
                 android:minHeight="40dp"
                 android:padding="0dp"/>
+
 
             <TextView
                 android:id="@+id/home_search_text"

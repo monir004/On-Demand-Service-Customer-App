@@ -22,6 +22,7 @@ import com.dhakasetup.sakib.dhakasetupprototype.model.Phone;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Data;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Service;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Subcat;
+import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Trend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +46,32 @@ public class Service1Activity extends AppCompatActivity {
 //        serviceList = Data.getInstance(this).getData().get(cat).getSubcats().get(subcat).getServices();
 //        subcat_name = Data.getInstance(this).getData().get(cat).getSubcats().get(subcat).getSubCat_name();
 
-        String subcat_id = getIntent().getStringExtra("subcat_id");
-        Subcat subcat_obj = Data.getInstance(this).getSubcat(subcat_id);
-        serviceList = subcat_obj.getServices();
-        subcat_name = subcat_obj.getSubCat_name();
+        Subcat subcat_obj;
+        int trend = getIntent().getIntExtra("trend",-1);
+        if (trend == -1){
+            String subcat_id = getIntent().getStringExtra("subcat_id");
+            subcat_obj = Data.getInstance(this).getSubcat(subcat_id);
+            serviceList = subcat_obj.getServices();
+            subcat_name = subcat_obj.getSubCat_name();
+        }
+        else {
+            List<Trend> trends = Data.getInstance(this).getTrend();
+            List<Trend> trends1 = new ArrayList<>();
+            for (int i =0; i<trends.size(); i++ ){
+                int tid = Integer.parseInt(trends.get(i).getTrend_id());
+                if (tid == trend){
+                    trends1.add(trends.get(i));
+                }
+            }
+            List<Service> services = new ArrayList<>();
+            for (Trend t : trends1){
+                Service service = Data.getInstance(this).getService(Integer.parseInt(t.getTrend_srv()));
+                services.add(service);
+            }
+            serviceList = services;
+            subcat_name = trends1.get(0).getTrend_name();
+        }
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

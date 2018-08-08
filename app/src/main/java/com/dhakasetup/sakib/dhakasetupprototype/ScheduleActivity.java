@@ -2,6 +2,7 @@ package com.dhakasetup.sakib.dhakasetupprototype;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -28,6 +29,10 @@ import com.dhakasetup.sakib.dhakasetupprototype.adapter.DatepickerAdapter;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Data;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ScheduleActivity extends AppCompatActivity {
@@ -37,11 +42,30 @@ public class ScheduleActivity extends AppCompatActivity {
     SchedulePager adapter;
     TextView subtotal;
     Button confirm;
-    public String workdate,worktime;
+
+    Calendar cal;
+    Date datetime;
+    SimpleDateFormat formatter,day_format;
+    String current_date,within_4,current_day,workdatetime;
+
+    String orderid;
+
+    public Calendar workdate;
+    public String worktime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
+
+        cal = Calendar.getInstance();
+        datetime = new Date();
+        formatter = new SimpleDateFormat("h:mm a");
+        day_format = new SimpleDateFormat("EEE, d MMM yyyy");
+        current_date = formatter.format(datetime);
+        current_day = day_format.format(datetime);
+        cal.add(Calendar.HOUR,4);
+        within_4 = formatter.format(cal.getTime());
+
         subtotal = findViewById(R.id.service1_item_subtotal);
         confirm = findViewById(R.id.place_order_btn);
         toolbar = findViewById(R.id.schedule_toolbar);
@@ -52,7 +76,9 @@ public class ScheduleActivity extends AppCompatActivity {
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(2);
 
-        BottomNavigationView mNavigationBottom = findViewById(R.id.bottom_navigation_bar);
+        orderid = getIntent().getStringExtra("orderid");
+
+        //BottomNavigationView mNavigationBottom = findViewById(R.id.bottom_navigation_bar);
 //        mNavigationBottom.getMenu().setGroupCheckable(0, false, true);
 //        mNavigationBottom.getMenu().setGroupCheckable(0, true, true);
 
@@ -60,8 +86,8 @@ public class ScheduleActivity extends AppCompatActivity {
         pager = findViewById(R.id.schedule_viewpager);
 
 
-        tabs.addTab(tabs.newTab().setText("Within 2 hours"));
-        tabs.addTab(tabs.newTab().setText("Pick a timecard"));
+        tabs.addTab(tabs.newTab().setText("Within 4 hours"));
+        tabs.addTab(tabs.newTab().setText("Pick a time"));
 
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
         tabs.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager));
@@ -74,9 +100,16 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (pager.getCurrentItem() == 0){
-                    Toast.makeText(ScheduleActivity.this,"within 2 hours",Toast.LENGTH_SHORT).show();
+                    workdatetime = current_date+" - "+within_4;
+                    //Toast.makeText(ScheduleActivity.this,workdatetime,Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ScheduleActivity.this,ThankActivity.class);
+                    intent.putExtra("within_time",workdatetime);
+                    intent.putExtra("day",current_day);
+                    intent.putExtra("orderid",orderid);
+                    startActivity(intent);
                 }
                 else {
+                    Calendar calendar = Calendar.getInstance();
                     if (worktime == null && workdate == null){
                         Toast.makeText(ScheduleActivity.this,"select date and time",Toast.LENGTH_SHORT).show();
                     }
@@ -87,7 +120,16 @@ public class ScheduleActivity extends AppCompatActivity {
                         Toast.makeText(ScheduleActivity.this,"select a date",Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        Toast.makeText(ScheduleActivity.this,workdate+" "+worktime,Toast.LENGTH_SHORT).show();
+                        workdatetime = workdate.getTime().toString()+";"+worktime;
+                        //Toast.makeText(ScheduleActivity.this,workdatetime,Toast.LENGTH_SHORT).show();
+
+                        SimpleDateFormat f1 = new SimpleDateFormat("EEE, d MMM yyyy");
+
+                        Intent intent = new Intent(ScheduleActivity.this,ThankActivity.class);
+                        intent.putExtra("time",worktime);
+                        intent.putExtra("day",f1.format(workdate.getTime()));
+                        intent.putExtra("orderid",orderid);
+                        startActivity(intent);
                     }
 
                 }
@@ -122,9 +164,9 @@ public class ScheduleActivity extends AppCompatActivity {
         LinearLayout layout1,layout2;
         RecyclerView recyclerView;
         DatepickerAdapter adapter;
-        CardView timecard[] = new CardView[4];
-        TextView timetext[] = new TextView[4];
-        boolean time[] = new boolean[4];
+        public CardView timecard[] = new CardView[4];
+        public TextView timetext[] = new TextView[4];
+        public boolean time[] = new boolean[4];
 
         Context context;
 
@@ -142,7 +184,7 @@ public class ScheduleActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
             recyclerView.setHasFixedSize(true);
 
-            adapter = new DatepickerAdapter(getContext());
+            adapter = new DatepickerAdapter(getContext(),this);
             recyclerView.setAdapter(adapter);
 
             timecard[0] = view.findViewById(R.id.time1);

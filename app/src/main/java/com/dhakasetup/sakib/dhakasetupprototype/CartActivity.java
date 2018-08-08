@@ -1,5 +1,6 @@
 package com.dhakasetup.sakib.dhakasetupprototype;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Category;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Data;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Service;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.NumberFormat;
@@ -51,6 +54,8 @@ public class CartActivity extends AppCompatActivity {
     List<Category> categories;
     public int cart_counter = 0;
     NumberFormat nf ;
+    String orderid;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +104,29 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 JSONObject obj = Data.place_order(context);
+                String uid = null;
+                try {
+                    uid = obj.getString("oauth_uid");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (uid == null){
+                    Toast.makeText(getApplicationContext(), "please log in!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (Data.getCart(context).getServices().size() == 0){
+                    Toast.makeText(getApplicationContext(), "Please add a service", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 send_cart("http://www.dhakasetup.com/api/order/orderpost.php",obj);
                 //Toast.makeText(getApplicationContext(),"Order placed! For details, check ongoing orders",Toast.LENGTH_SHORT).show();
-                Toast toast = Toast.makeText(getApplicationContext(), "Your order has been placed!\nFor details,check Orders-->OnGoing Orders", Toast.LENGTH_LONG);
+
+
+
+                Toast toast = Toast.makeText(getApplicationContext(), "order placed!", Toast.LENGTH_SHORT);
                 TextView vv = (TextView) toast.getView().findViewById(android.R.id.message);
                 if( vv != null) vv.setGravity(Gravity.CENTER);
                 toast.show();
-                Intent intent = new Intent(context,ScheduleActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -135,6 +155,8 @@ public class CartActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_search:
+                Intent intent1 = new Intent(this,SearchActivity.class);
+                startActivity(intent1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -154,7 +176,13 @@ public class CartActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // response
+                        orderid = response;
+                        Data.getCart(CartActivity.this).clear();
                         Log.d("profileres", response);
+                        Toast.makeText(CartActivity.this,orderid,Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context,ScheduleActivity.class);
+                        intent.putExtra("orderid",orderid);
+                        startActivity(intent);
                     }
                 },
                 new Response.ErrorListener()

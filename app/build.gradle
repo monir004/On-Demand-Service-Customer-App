@@ -6,8 +6,8 @@ android {
         applicationId "com.dhakasetup.sakib.dhakasetupprototype"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 22
-        versionName "5.22"
+        versionCode 25
+        versionName "5.25"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -83,4 +83,12 @@ dependencies {
 
 dependencies {
     implementation 'com.android.support:support-v4:27.+'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
 }

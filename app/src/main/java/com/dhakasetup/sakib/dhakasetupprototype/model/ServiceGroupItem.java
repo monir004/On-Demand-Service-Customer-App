@@ -8,10 +8,25 @@ package com.dhakasetup.sakib.dhakasetupprototype.model;
 public class ServiceGroupItem {
     private String imageLink;
     private String title;
+    private String srv_sl;
+
+    public ServiceGroupItem(String imageLink, String title, String srv_sl) {
+        this.imageLink = imageLink;
+        this.title = title;
+        this.srv_sl = srv_sl;
+    }
 
     public ServiceGroupItem(String imageLink, String title) {
         this.imageLink = imageLink;
         this.title = title;
+    }
+
+    public String getSrv_sl() {
+        return srv_sl;
+    }
+
+    public void setSrv_sl(String srv_sl) {
+        this.srv_sl = srv_sl;
     }
 
     public String getImageLink() {

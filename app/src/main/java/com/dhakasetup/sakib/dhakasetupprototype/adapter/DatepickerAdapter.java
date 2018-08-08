@@ -23,11 +23,13 @@ public class DatepickerAdapter extends RecyclerView.Adapter <DatepickerAdapter.D
 
     private String date,month,year,day;
     private Context context;
-    Calendar cal;
+    Calendar cal,cal_ret;
     boolean[] selected;
+    ScheduleActivity.PickTimeFragment fragment;
 
-    public DatepickerAdapter(Context context){
+    public DatepickerAdapter(Context context, ScheduleActivity.PickTimeFragment pickTimeFragment){
         this.context = context;
+        this.fragment = pickTimeFragment;
         selected = new boolean[7];
     }
 
@@ -40,13 +42,30 @@ public class DatepickerAdapter extends RecyclerView.Adapter <DatepickerAdapter.D
 
     @Override
     public void onBindViewHolder(@NonNull final DateVH holder, final int position) {
-        setup(holder,position);
+        cal_ret = setup(holder,position);
         if (selected[position]){
             holder.root.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
             holder.date.setTextColor(context.getResources().getColor(R.color.white));
             holder.month.setTextColor(context.getResources().getColor(R.color.white));
             holder.day.setTextColor(context.getResources().getColor(R.color.white));
-            ((ScheduleActivity)context).workdate = holder.date.getText().toString()+holder.month.getText().toString()+holder.day.getText().toString();
+            //((ScheduleActivity)context).workdate = holder.date.getText().toString()+holder.month.getText().toString()+holder.day.getText().toString();
+            ((ScheduleActivity)context).workdate = cal_ret;
+            if (position == 0){
+                Calendar cal = Calendar.getInstance();
+                if(cal.get(Calendar.HOUR_OF_DAY) >= 9)
+                    fragment.timecard[0].setVisibility(View.GONE);
+                if(cal.get(Calendar.HOUR_OF_DAY) >= 12)
+                    fragment.timecard[1].setVisibility(View.GONE);
+                if(cal.get(Calendar.HOUR_OF_DAY) >= 15)
+                    fragment.timecard[2].setVisibility(View.GONE);
+                if(cal.get(Calendar.HOUR_OF_DAY) >= 18)
+                    fragment.timecard[3].setVisibility(View.GONE);
+            }
+            else {
+                for (CardView card: fragment.timecard){
+                    card.setVisibility(View.VISIBLE);
+                }
+            }
         }
         else {
             holder.root.setCardBackgroundColor(context.getResources().getColor(R.color.white));
@@ -64,6 +83,14 @@ public class DatepickerAdapter extends RecyclerView.Adapter <DatepickerAdapter.D
                     }
                 }
                 ((ScheduleActivity)context).workdate = null;
+                ((ScheduleActivity)context).worktime = null;
+                for (int i=0; i<4; i++){
+                    CardView card = fragment.timecard[i];
+                    card.setVisibility(View.VISIBLE);
+                    fragment.time[i] = false;
+                    fragment.timecard[i].setCardBackgroundColor(context.getResources().getColor(R.color.white));
+                    fragment.timetext[i].setTextColor(context.getResources().getColor(R.color.grey));
+                }
                 notifyDataSetChanged();
             }
         });
@@ -74,7 +101,7 @@ public class DatepickerAdapter extends RecyclerView.Adapter <DatepickerAdapter.D
         return 7;
     }
 
-    public void setup(DateVH holder, int position){
+    public Calendar setup(DateVH holder, int position){
         cal= Calendar.getInstance();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -98,7 +125,7 @@ public class DatepickerAdapter extends RecyclerView.Adapter <DatepickerAdapter.D
         holder.date.setText(date);
         holder.month.setText(month);
         holder.day.setText(day);
-
+        return cal;
     }
 
     public class DateVH extends RecyclerView.ViewHolder{

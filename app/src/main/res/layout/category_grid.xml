@@ -5,25 +5,44 @@
     android:background="#efefef"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <View
-            android:layout_width="5dp"
-            android:layout_height="20dp"
-            android:background="@color/colorPrimary">
 
-        </View>
+        <ImageView
+            android:id="@+id/breaking_news_icon"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:tint="@color/yellow"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_volume_mute_black_24dp"
+            />
         <TextView
+            android:id="@+id/breaking_news"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/breaking_news_icon"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Browse our categories"
+            android:text="No 3rd party communication. 100% satisfaction or rework on home rapairs "
             android:textSize="12sp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:gravity="center|start"
             android:paddingBottom="5dp"/>
-    </LinearLayout>
+
+    </RelativeLayout>
+    
+
 
 
     <android.support.v7.widget.RecyclerView

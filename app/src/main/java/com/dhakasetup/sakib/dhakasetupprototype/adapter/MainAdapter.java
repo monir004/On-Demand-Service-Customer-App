@@ -1,7 +1,10 @@
 package com.dhakasetup.sakib.dhakasetupprototype.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,9 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dhakasetup.sakib.dhakasetupprototype.R;
+import com.dhakasetup.sakib.dhakasetupprototype.Service1Activity;
 import com.dhakasetup.sakib.dhakasetupprototype.model.AdBanner;
 import com.dhakasetup.sakib.dhakasetupprototype.model.CategoryGrid;
 import com.dhakasetup.sakib.dhakasetupprototype.model.ServiceGroup;
@@ -19,7 +24,9 @@ import com.dhakasetup.sakib.dhakasetupprototype.viewholder.AdBannerVH;
 import com.dhakasetup.sakib.dhakasetupprototype.viewholder.CategoryGridVH;
 import com.dhakasetup.sakib.dhakasetupprototype.viewholder.ServiceGroupVH;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by Nazmus Sakib on 03,April,2018
@@ -72,6 +79,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case TYPE_GRID:
                 view = inflater.inflate(R.layout.category_grid,parent,false);
+                TextView news = view.findViewById(R.id.breaking_news);
+                news.setSelected(true);
                 viewHolder = new CategoryGridVH(view);
                 break;
             case TYPE_SERVICE:
@@ -86,6 +95,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         return viewHolder;
     }
+
+
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
@@ -106,11 +117,20 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case TYPE_SERVICE:
                 ServiceGroupVH serviceGroupVH = (ServiceGroupVH) holder;
-                ServiceGroup serviceGroup = (ServiceGroup) data.get(position);
+                final ServiceGroup serviceGroup = (ServiceGroup) data.get(position);
                 serviceGroupVH.title.setText(serviceGroup.getService_group_title());
                 serviceGroupVH.recyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
                 ServiceGroupAdapter serviceGroupAdapter = new ServiceGroupAdapter((ServiceGroup) serviceGroup,context);
                 serviceGroupVH.recyclerView.setAdapter(serviceGroupAdapter);
+                serviceGroupVH.see_all.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Toast.makeText(context,""+serviceGroup.getTrend_id(),Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, Service1Activity.class);
+                        intent.putExtra("trend",serviceGroup.getTrend_id());
+                        context.startActivity(intent);
+                    }
+                });
                 break;
         }
     }

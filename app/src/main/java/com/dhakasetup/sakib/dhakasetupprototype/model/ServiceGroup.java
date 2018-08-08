@@ -11,6 +11,7 @@ import java.util.List;
 public class ServiceGroup {
     private List<ServiceGroupItem> items;
     private String service_group_title;
+    int trend_id;
     public ServiceGroup() {
         items = new ArrayList<ServiceGroupItem>();
     }
@@ -21,6 +22,14 @@ public class ServiceGroup {
 
     public void setService_group_title(String service_group_title) {
         this.service_group_title = service_group_title;
+    }
+
+    public int getTrend_id() {
+        return trend_id;
+    }
+
+    public void setTrend_id(int trend_id) {
+        this.trend_id = trend_id;
     }
 
     public void addItem(ServiceGroupItem item){

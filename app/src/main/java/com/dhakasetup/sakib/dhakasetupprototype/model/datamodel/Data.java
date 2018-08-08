@@ -36,6 +36,7 @@ public class Data {
 
 
     private List<Category> categories = new ArrayList<>();
+    private List<Trend> trends = new ArrayList<>();
 
     public static synchronized Data getInstance(Context context){
         if (data == null){
@@ -70,6 +71,10 @@ public class Data {
 
     public List<Category> getData() {
         return categories;
+    }
+
+    public List<Trend> getTrend() {
+        return trends;
     }
 
     public void test(){
@@ -134,13 +139,13 @@ public class Data {
             obj.put("oauth_uid",settings.getString("userid",null));
             obj.put("mobile",settings.getString("phone",null));
 
-            obj.put("d_address","32/2");
+            obj.put("d_address",settings.getString("address",null));
             obj.put("d_date","12 june");
             obj.put("d_timerange","4:00-5:00pm");
 
             obj.put("total_am",Double.valueOf(getCart(context).total()).intValue());
             obj.put("disc_am","-");
-            obj.put("net_am","-");
+            obj.put("net_am",Double.valueOf(getCart(context).total()).intValue());
             obj.put("paid_am","-");
             obj.put("due_am","-");
 
@@ -176,6 +181,7 @@ public class Data {
                                 Category category = new Category();
                                 category.setCat_id(categoryObj.getString("cat_id"));
                                 category.setCat_name(categoryObj.getString("cat_name"));
+                                category.setCat_image("http://dhakasetup.com/images/category/"+categoryObj.getString("cat_image"));
                                 //category.setSer_counter(categoryObj.getInt("serviceCounter"));
                                 //Log.d("categoryOld","*** "+ category.getCat_name()+" has "+ category.getSer_counter()+" services ****");
                                 List<Subcat> subcatList = new ArrayList<>();
@@ -229,7 +235,20 @@ public class Data {
 
                             }
 
+                            int trendCounter = rootObject.getInt("trendCounter");
+                            JSONArray trendArray = rootObject.getJSONArray("trendArray");
+                            List<Trend> trendList = new ArrayList<>();
+                            for (int i = 0; i < trendArray.length(); i++){
+                                JSONObject trendObj = trendArray.getJSONObject(i);
+                                Trend trend = new Trend();
+                                trend.setTrend_id(trendObj.getString("trend_id"));
+                                trend.setTrend_name(trendObj.getString("trend_name"));
+                                trend.setTrend_srv(trendObj.getString("srv_sl"));
+                                trendList.add(trend);
+                            }
+
                             categories = categoryList;
+                            trends = trendList;
                             //Log.d("testdata",""+categories.size());
                             SplashActivity.LOAD = true;
 

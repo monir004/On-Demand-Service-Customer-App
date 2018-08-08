@@ -43,7 +43,7 @@ public class OrderActivity extends AppCompatActivity {
 
         String orderid = getIntent().getStringExtra("order");
         Order order = getOrder(orderid);
-        orderid_tv.setText(orderid);
+        orderid_tv.setText(String.valueOf(order.getOrder_sl()+1000));
         status.setText(order.getStatus());
         total.setText(String.valueOf(order.getTotal_am()));
         disc.setText(String.valueOf(order.getDisc_am()));

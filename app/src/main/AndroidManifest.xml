@@ -46,7 +46,9 @@
         <activity
             android:name=".SearchActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".ScheduleActivity"></activity>
+        <activity android:name=".ScheduleActivity" />
+        <activity android:name=".ThankActivity" />
+        <activity android:name=".SeeAllActivity"></activity>
     </application>
 
 </manifest> <!-- android:icon="@mipmap/ic_launcher" -->

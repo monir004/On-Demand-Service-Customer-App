@@ -1,6 +1,7 @@
 package com.dhakasetup.sakib.dhakasetupprototype.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dhakasetup.sakib.dhakasetupprototype.R;
+import com.dhakasetup.sakib.dhakasetupprototype.Service1Activity;
+import com.dhakasetup.sakib.dhakasetupprototype.ServiceItemActivity;
 import com.dhakasetup.sakib.dhakasetupprototype.model.CategoryGrid;
 import com.dhakasetup.sakib.dhakasetupprototype.model.ServiceGroup;
 import com.dhakasetup.sakib.dhakasetupprototype.viewholder.CategoryGridItemVH;
@@ -42,13 +45,21 @@ public class ServiceGroupAdapter extends RecyclerView.Adapter<ServiceGroupItemVH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ServiceGroupItemVH holder, int position) {
+    public void onBindViewHolder(@NonNull ServiceGroupItemVH holder, final int position) {
         ImageView imageView = holder.imageView;
         TextView textView = holder.textView;
 
         textView.setText(data.getItems().get(position).getTitle());
         String link = data.getItems().get(position).getImageLink();
         Picasso.get().load(link).resize(100,70).centerCrop().into(imageView);
+        holder.root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ServiceItemActivity.class);
+                intent.putExtra("srviceID",data.getItems().get(position).getSrv_sl());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

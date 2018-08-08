@@ -6,6 +6,7 @@ import java.util.List;
 public class Category {
     String cat_id;
     String cat_name;
+    String cat_image;
     int ser_counter;
     List<Subcat> subcats = new ArrayList<>();
 
@@ -17,6 +18,14 @@ public class Category {
         this.cat_name = cat_name;
         this.ser_counter = ser_counter;
         this.subcats = subcats;
+    }
+
+    public String getCat_image() {
+        return cat_image;
+    }
+
+    public void setCat_image(String cat_image) {
+        this.cat_image = cat_image;
     }
 
     public String getCat_id() {

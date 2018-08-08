@@ -76,7 +76,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
             GradientDrawable backgroundGradient = (GradientDrawable)holder.icon.getBackground();
             backgroundGradient.setStroke(3,context.getResources().getColor(R.color.ongoing));
         }
-        holder.order.setText(o.getOrder_id());
+        holder.order.setText(String.valueOf(o.getOrder_sl()+1000));
         holder.price.setText(String.valueOf(o.getTotal_am()));
         holder.date.setText(o.getOpen_time().toString());
         holder.root.setOnClickListener(new View.OnClickListener() {

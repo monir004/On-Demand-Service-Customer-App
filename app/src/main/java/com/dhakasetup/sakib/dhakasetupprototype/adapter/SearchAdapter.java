@@ -57,6 +57,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchVH> 
         final Object obj = objects.get(position);
         if(obj instanceof Category){
             holder.text.setText(((Category) obj).getCat_name());
+            Picasso.get().load(((Category) obj).getCat_image()).into(holder.image);
             holder.root.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
