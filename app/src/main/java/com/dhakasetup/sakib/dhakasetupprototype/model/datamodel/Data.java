@@ -101,6 +101,19 @@ public class Data {
         return null;
     }
 
+    public Subcat getSubcat(String subcat_ID){
+        for (int i = 0; i < categories.size(); i++){
+            Category testCat = categories.get(i);
+            for (int j = 0; j < testCat.getSubcats().size(); j++){
+                Subcat testSub = testCat.getSubcats().get(j);
+                if(testSub.getSubCat_id().equals(subcat_ID)){
+                    return testSub;
+                }
+            }
+        }
+        return null;
+    }
+
     public static JSONObject place_order(Context context) {
         JSONObject obj = new JSONObject();
         try {

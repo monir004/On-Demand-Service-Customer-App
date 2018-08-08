@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Subcat {
-    String subCat_id="",subCat_name="";
+    String subCat_id="",subCat_name="",cat_id;
     List<Service> services = new ArrayList<>();
 
     public Subcat(String subCat_id, String subCat_name, List<Service> services) {
@@ -19,6 +19,14 @@ public class Subcat {
     }
 
     public Subcat() {
+    }
+
+    public String getCat_id() {
+        return cat_id;
+    }
+
+    public void setCat_id(String cat_id) {
+        this.cat_id = cat_id;
     }
 
     public List<Service> getServices() {

@@ -1,31 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/category_grid_root"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:clickable="true"
-    android:layout_margin="10dp"
+    android:layout_margin="0dp"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="#c7c7c7"
-    android:gravity="center"
+    android:layout_height="90dp"
+
+
     android:orientation="vertical">
 
+<android.support.v7.widget.CardView
+    android:id="@+id/category_grid_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardCornerRadius="5dp"
+    app:cardUseCompatPadding="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:elevation="5dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/category_grid_image"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_width="60dp"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:id="@+id/category_grid_text"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Water Purifier &amp; Installation"
+            android:paddingTop="5dp"
+            android:lines="2"
+            android:textSize="9sp"
+            android:textColor="#000000"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
 
 
-    <ImageView
-        android:id="@+id/category_grid_image"
-        android:layout_width="80dp"
-        android:layout_height="50dp"/>
 
-    <TextView
-        android:id="@+id/category_grid_text"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
-        android:textAlignment="center"
-        android:text="Water Purifier &amp; Installation"
-        android:lines="3"
-        android:textSize="10sp"
-        android:textColor="#000000"/>
 
 </LinearLayout>

@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,10 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dhakasetup.sakib.dhakasetupprototype.adapter.ServiceItemAdapter;
+import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Cart;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Category;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Data;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Service;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.ServiceProp;
+
+import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -130,6 +135,15 @@ public class ServiceItemActivity extends AppCompatActivity {
                 finish();
             }
         });
+        Button place_order = findViewById(R.id.place_order_btn);
+        place_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context,CartActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -155,6 +169,8 @@ public class ServiceItemActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_search:
+                Intent intent1 = new Intent(this,SearchActivity.class);
+                startActivity(intent1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -21,6 +21,7 @@ import com.dhakasetup.sakib.dhakasetupprototype.model.Number;
 import com.dhakasetup.sakib.dhakasetupprototype.model.Phone;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Data;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Service;
+import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Subcat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +40,16 @@ public class Service1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service1);
 
-        int subcat = getIntent().getIntExtra("subcat",-1);
-        int cat = getIntent().getIntExtra("cat",-1);
-        serviceList = Data.getInstance(this).getData().get(cat).getSubcats().get(subcat).getServices();
-        subcat_name = Data.getInstance(this).getData().get(cat).getSubcats().get(subcat).getSubCat_name();
+//        int subcat = getIntent().getIntExtra("subcat",-1);
+//        int cat = getIntent().getIntExtra("cat",-1);
+//        serviceList = Data.getInstance(this).getData().get(cat).getSubcats().get(subcat).getServices();
+//        subcat_name = Data.getInstance(this).getData().get(cat).getSubcats().get(subcat).getSubCat_name();
+
+        String subcat_id = getIntent().getStringExtra("subcat_id");
+        Subcat subcat_obj = Data.getInstance(this).getSubcat(subcat_id);
+        serviceList = subcat_obj.getServices();
+        subcat_name = subcat_obj.getSubCat_name();
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -118,6 +125,8 @@ public class Service1Activity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_search:
+                Intent intent1 = new Intent(this,SearchActivity.class);
+                startActivity(intent1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

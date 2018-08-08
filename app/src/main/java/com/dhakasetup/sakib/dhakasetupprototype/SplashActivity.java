@@ -13,7 +13,7 @@ import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity {
 
-    public static boolean LOAD = false;
+    public static boolean LOAD = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

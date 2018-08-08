@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ScheduleActivity">
+
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/schedule_toolbar"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        >
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/schedule_tablayout"
+        android:layout_below="@id/schedule_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:tabIndicatorHeight="3dp"
+        app:tabIndicatorColor="#ffffff"
+        app:tabTextColor="#e6e6e6"
+        app:tabSelectedTextColor="#ffffff"
+        android:elevation="6dp"
+        app:tabTextAppearance="@style/TabText"
+        app:tabMode="fixed"
+        app:tabGravity="fill" />
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_above="@id/subtotal_root"
+        android:layout_below="@id/schedule_tablayout"
+        android:id="@+id/schedule_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+    <RelativeLayout
+        android:id="@+id/subtotal_root"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@id/place_order_btn"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:background="@color/greyLight">
+        <TextView
+            android:id="@+id/sss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Subtotal"/>
+        <TextView
+            android:id="@+id/service1_item_subtotal"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="0"/>
+        <TextView
+            android:id="@+id/bdt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/service1_item_subtotal"
+            android:text="৳"/>
+        <TextView
+            android:id="@+id/ssss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:text="You saved"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/service1_item_savings"
+            android:layout_alignParentBottom="true"
+            android:text="৳"/>
+        <TextView
+            android:id="@+id/service1_item_savings"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="0"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/place_order_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_above="@id/bottom_navigation_bar"
+        android:text="Confirm"
+        android:layout_marginVertical="10dp"
+        android:background="@color/colorAccent"
+        android:layout_marginHorizontal="30dp"/>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation_bar"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/nav_items">
+
+    </android.support.design.widget.BottomNavigationView>
+
+</RelativeLayout>

@@ -3,6 +3,7 @@ package com.dhakasetup.sakib.dhakasetupprototype.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +50,7 @@ public class CategoryGridAdapter extends RecyclerView.Adapter<CategoryGridItemVH
     public void onBindViewHolder(@NonNull CategoryGridItemVH holder, final int position) {
         ImageView imageView = holder.imageView;
         TextView textView = holder.textView;
-        LinearLayout root = holder.root;
+        CardView root = holder.root;
 
         final CategoryGridItem item = data.getItems().get(position);
 

@@ -41,7 +41,7 @@ public class SubcatAdapter extends RecyclerView.Adapter<SubcatAdapter.SubcatVH> 
 
     @Override
     public void onBindViewHolder(@NonNull SubcatVH holder, final int position) {
-        Subcat subcat = subcats.get(position);
+        final Subcat subcat = subcats.get(position);
         //Picasso.get().load(subcat.getSubCat_name()).into(holder.imageView);
         holder.title.setText(subcat.getSubCat_name());
         LinearLayout root = holder.root;
@@ -49,8 +49,7 @@ public class SubcatAdapter extends RecyclerView.Adapter<SubcatAdapter.SubcatVH> 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Service1Activity.class);
-                intent.putExtra("cat",cat);
-                intent.putExtra("subcat",position);
+                intent.putExtra("subcat_id",subcat.getSubCat_id());
                 context.startActivity(intent);
             }
         });

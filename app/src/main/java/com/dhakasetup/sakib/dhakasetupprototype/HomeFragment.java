@@ -1,13 +1,17 @@
 package com.dhakasetup.sakib.dhakasetupprototype;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.dhakasetup.sakib.dhakasetupprototype.adapter.MainAdapter;
 import com.dhakasetup.sakib.dhakasetupprototype.model.AdBanner;
@@ -73,6 +77,25 @@ public class HomeFragment extends Fragment {
         MainAdapter adapter = new MainAdapter(getActivity(), data);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+
+        ImageButton searchBtn = view.findViewById(R.id.home_search_icon);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),SearchActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+        TextView textBtn = view.findViewById(R.id.home_search_text);
+        textBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),SearchActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
 
         return view;
     }

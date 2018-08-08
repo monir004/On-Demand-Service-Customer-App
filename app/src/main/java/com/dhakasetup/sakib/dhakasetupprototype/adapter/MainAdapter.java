@@ -99,7 +99,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case TYPE_GRID:
                 CategoryGridVH categoryGridVH = (CategoryGridVH) holder;
-                categoryGridVH.recyclerView.setLayoutManager(new GridLayoutManager(context,3));
+                categoryGridVH.recyclerView.setLayoutManager(new GridLayoutManager(context,4));
                 CategoryGridAdapter categoryGridAdapter = new CategoryGridAdapter((CategoryGrid) data.get(position),context);
                 categoryGridVH.recyclerView.setAdapter(categoryGridAdapter);
                 Log.d("test","MainAdapter onBind");

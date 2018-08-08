@@ -1,5 +1,6 @@
 package com.dhakasetup.sakib.dhakasetupprototype.viewholder;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +18,7 @@ import com.dhakasetup.sakib.dhakasetupprototype.R;
 public class CategoryGridItemVH extends RecyclerView.ViewHolder {
     public ImageView imageView;
     public TextView textView;
-    public LinearLayout root;
+    public CardView root;
 
     public CategoryGridItemVH(View itemView) {
         super(itemView);

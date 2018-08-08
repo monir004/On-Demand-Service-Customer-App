@@ -106,6 +106,8 @@ public class SubcatActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_search:
+                Intent intent1 = new Intent(this,SearchActivity.class);
+                startActivity(intent1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

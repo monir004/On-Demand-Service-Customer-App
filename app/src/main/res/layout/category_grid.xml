@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_margin="5dp"
+    android:background="#efefef"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
@@ -10,7 +11,7 @@
         android:orientation="horizontal">
         <View
             android:layout_width="5dp"
-            android:layout_height="35dp"
+            android:layout_height="20dp"
             android:background="@color/colorPrimary">
 
         </View>
@@ -20,14 +21,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Browse our categories"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:paddingBottom="5dp"/>
     </LinearLayout>
 
 
     <android.support.v7.widget.RecyclerView
-        android:background="#ffffff"
+        android:background="#f5f5f5"
         android:id="@+id/recycler_category_grid"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

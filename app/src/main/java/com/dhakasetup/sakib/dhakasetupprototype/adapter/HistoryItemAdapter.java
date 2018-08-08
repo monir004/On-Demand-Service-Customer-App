@@ -28,7 +28,7 @@ public class HistoryItemAdapter extends RecyclerView.Adapter<HistoryItemAdapter.
             if (orders.get(i).getOrder_id().equals(orderid)){
                 items = orders.get(i).getOrderItems();
                 Log.d("profileres", "items size -> "+ items.size());
-                Log.d("profileres", "items name -> "+ items.get(0).getSrvice()+items.get(1).getSrvice());
+                //Log.d("profileres", "items name -> "+ items.get(0).getSrvice()+items.get(1).getSrvice());
                 break;
             }
         }

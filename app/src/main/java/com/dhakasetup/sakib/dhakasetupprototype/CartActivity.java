@@ -2,18 +2,23 @@ package com.dhakasetup.sakib.dhakasetupprototype;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,6 +46,8 @@ public class CartActivity extends AppCompatActivity {
     ImageButton add_more;
     Button place_order;
     public TextView subtotal,savings;
+    public BottomNavigationView bottomNavigationView;
+    String fragmentTag;
     List<Category> categories;
     public int cart_counter = 0;
     NumberFormat nf ;
@@ -93,8 +100,17 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 JSONObject obj = Data.place_order(context);
                 send_cart("http://www.dhakasetup.com/api/order/orderpost.php",obj);
+                //Toast.makeText(getApplicationContext(),"Order placed! For details, check ongoing orders",Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getApplicationContext(), "Your order has been placed!\nFor details,check Orders-->OnGoing Orders", Toast.LENGTH_LONG);
+                TextView vv = (TextView) toast.getView().findViewById(android.R.id.message);
+                if( vv != null) vv.setGravity(Gravity.CENTER);
+                toast.show();
+                Intent intent = new Intent(context,ScheduleActivity.class);
+                startActivity(intent);
             }
         });
+
+
     }
 
     @Override
