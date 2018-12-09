@@ -1,10 +1,11 @@
 package com.dhakasetup.sakib.dhakasetupprototype;
 
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,98 +23,72 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.accountkit.ui.LoginType;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProfileFragment extends Fragment {
 
-    LinearLayout loginLayout, logoutLayout;
-    Button loginBtn,logoutBtn,editBtn;
-    TextView phoneTv;
-    EditText usernameET,addressET,emailET;
-    String userid,phoneNum;
-    SharedPreferences settings;
-    Context context;
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile,container,false);
-        loginLayout = view.findViewById(R.id.login);
-        logoutLayout = view.findViewById(R.id.logout);
-        loginBtn = view.findViewById(R.id.loginBtn);
-        phoneTv = view.findViewById(R.id.phoneTextView);
-        usernameET = view.findViewById(R.id.usernameET);
-        addressET = view.findViewById(R.id.addressET);
-        emailET = view.findViewById(R.id.emailEditText);
-        context = getActivity();
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).startLoginPage(LoginType.PHONE);
-            }
-        });
-        /*settings = getActivity().getSharedPreferences("dhakasetup",Context.MODE_PRIVATE);
-        userid = settings.getString("userid",null);
-        phoneNum = settings.getString("phone",null);
-        if(userid != null){
-            setProfile(userid,phoneNum);
-        }
-        else {
-            loginLayout.setVisibility(View.GONE);
-            logoutLayout.setVisibility(View.VISIBLE);
-        }
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class MiddleFragment extends Fragment {
 
 
+    private LinearLayout profile;
+    private TextView nameTv,phoneTv,versionTv;
+    Button logout_btn;
+    SharedPreferences setting;
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                settings.edit().clear().commit();
-                loginLayout.setVisibility(View.GONE);
-                logoutLayout.setVisibility(View.VISIBLE);
-            }
-        });
-
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (editBtn.getText().equals("SAVE")){
-                    usernameET.setFocusable(false);
-                    emailET.setFocusable(false);
-                    addressET.setFocusable(false);
-                    editBtn.setText("UPDATE");
-                    editBtn.setBackgroundColor(Color.parseColor("#FF5722"));
-                    userid = getActivity().getSharedPreferences("dhakasetup",Context.MODE_PRIVATE).getString("userid",null);
-                    profilepost(userid,
-                                usernameET.getText().toString(),
-                                phoneTv.getText().toString(),
-                                emailET.getText().toString(),
-                                addressET.getText().toString(),"1");
-                }
-                else {
-                    usernameET.setFocusableInTouchMode(true);
-                    emailET.setFocusableInTouchMode(true);
-                    addressET.setFocusableInTouchMode(true);
-                    editBtn.setText("SAVE");
-                    editBtn.setBackgroundColor(Color.GRAY);
-                }
-            }
-        });*/
-
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-
-        return view;
+    public MiddleFragment() {
+        // Required empty public constructor
     }
 
-    /*public void setProfile(final String userid, final String phoneNum){
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_middle, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        profile = view.findViewById(R.id.middle_profile);
+        nameTv = view.findViewById(R.id.middle_name);
+        phoneTv = view.findViewById(R.id.middle_phone);
+        logout_btn = view.findViewById(R.id.logout_btn);
+        versionTv = view.findViewById(R.id.app_version);
+        versionTv.setText("v  "+BuildConfig.VERSION_NAME);
+        setting = getActivity().getSharedPreferences("dhakasetup",Context.MODE_PRIVATE);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(((AppCompatActivity)getActivity()),ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+        logout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setting.edit().clear().commit();
+                Intent intent = new Intent(getContext(),MainActivity.class);
+                intent.putExtra("fragmentNumber",2);
+                startActivity(intent);
+            }
+        });
+        setProfile(setting.getString("userid",null),setting.getString("phone",null));
+        return  view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        nameTv.setText(setting.getString("name",null));
+        phoneTv.setText(setting.getString("phone",null));
+    }
+
+    public void setProfile(final String userid, final String phoneNum){
         //useridTv.setText(userid);
         phoneTv.setText(phoneNum);
-        loginLayout.setVisibility(View.VISIBLE);
-        logoutLayout.setVisibility(View.GONE);
         Log.d("profileres","profile api pre loaded "+phoneNum);
 
         StringRequest request = new StringRequest(Request.Method.GET,
@@ -129,9 +103,7 @@ public class ProfileFragment extends Fragment {
                                 String first_name = res.getString("first_name");
                                 String email = res.getString("email");
                                 String address = res.getString("address");
-                                usernameET.setText(first_name);
-                                addressET.setText(address);
-                                emailET.setText(email);
+                                nameTv.setText(first_name);
                                 SharedPreferences settings = getActivity().getSharedPreferences("dhakasetup",Context.MODE_PRIVATE);
                                 settings.edit().putString("name",first_name).commit();
                                 settings.edit().putString("address",address).commit();
@@ -196,5 +168,6 @@ public class ProfileFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         queue.add(request);
-    }*/
+    }
+
 }

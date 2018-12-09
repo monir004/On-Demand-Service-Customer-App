@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
     int Permission_All = 1;
     String[] Permissions = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.RECEIVE_SMS};
     TextView tv;
-    public SharedPreferences settings;
+    public SharedPreferences settings, setting;
+    Context context;
     public BottomNavigationView bottomNavigationView;
     String fragmentTag;
     Toolbar toolbar;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
         //startLoginPage(LoginType.PHONE);
         Data data = Data.getInstance(this);
         data.load(this);
@@ -79,12 +82,22 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTag = "order";
                         break;
                     case R.id.nav_personal:
-                        selectedFragment = new ProfileFragment();
-                        fragmentTag = "profile";
+                        setting = context.getSharedPreferences("dhakasetup",Context.MODE_PRIVATE);
+                        String userid = setting.getString("userid",null);
+                        String phoneNum = setting.getString("phone",null);
+                        if(userid != null){
+                            selectedFragment = new MiddleFragment();
+                            fragmentTag = "middle";
+                        }
+                        else {
+                            selectedFragment = new ProfileFragment();
+                            fragmentTag = "profile";
+                        }
                         //startLoginPage(LoginType.PHONE);
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment,fragmentTag).commit();
+                updateNavigationBarState(item.getItemId());
                 return true;
             }
         });
@@ -113,6 +126,19 @@ public class MainActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }*/
+        int fragmentIntent = getIntent().getIntExtra("fragmentNumber",0);
+        if (fragmentIntent == 1){
+            Fragment selectedFragment = new MiddleFragment();
+            fragmentTag = "middle";
+            bottomNavigationView.getMenu().getItem(1).setChecked(true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment,fragmentTag).commit();
+        }
+        else if (fragmentIntent == 2){
+            Fragment selectedFragment = new ProfileFragment();
+            fragmentTag = "profile";
+            bottomNavigationView.getMenu().getItem(1).setChecked(true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment,fragmentTag).commit();
+        }
 
     }
 
@@ -138,6 +164,16 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    private void updateNavigationBarState(int actionId){
+        Menu menu = bottomNavigationView.getMenu();
+
+        for (int i = 0, size = menu.size(); i < size; i++) {
+            MenuItem item = menu.getItem(i);
+            item.setChecked(item.getItemId() == actionId);
         }
     }
 
@@ -186,16 +222,24 @@ public class MainActivity extends AppCompatActivity {
                             settings = getSharedPreferences("dhakasetup", Context.MODE_PRIVATE);
                             settings.edit().putString("userid",id).commit();
                             settings.edit().putString("phone",num).commit();
-                            ((ProfileFragment)getSupportFragmentManager().findFragmentByTag("profile")).setProfile(id,num);
+                            Fragment selectedFragment = new MiddleFragment();
+                            fragmentTag = "middle";
+                            bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment,fragmentTag).commit();
                         }
 
                         @Override
                         public void onError(AccountKitError accountKitError) {
-
+                            Fragment selectedFragment = new ProfileFragment();
+                            fragmentTag = "profile";
+                            bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment,fragmentTag).commit();
                         }
                     });
                 }
             }
         }
     }
+
+
 }
