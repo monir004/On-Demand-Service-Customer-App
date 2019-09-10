@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/worker_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <ImageView
+        android:id="@+id/history_cart"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="6dp"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/circle"
+        android:tint="@color/ongoing"
+        android:src="@drawable/personal"/>
+
+    <RelativeLayout
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/history_cart">
+        <TextView
+            android:id="@+id/worker_mobile"
+            android:layout_width="120dp"
+            android:layout_height="20dp"
+            android:text="+8801715431645"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/worker_name"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_below="@id/worker_mobile"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:text="Sohel Rana"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/worker_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_below="@id/worker_mobile"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/worker_name"
+            android:text="4.50 ⭐"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_toLeftOf="@id/history_arrow"
+        android:layout_centerVertical="true"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="10sp"
+            android:text="Price"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/worker_price"
+            android:text="৳"/>
+        <TextView
+            android:id="@+id/worker_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="10,500"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/history_arrow"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="fitXY"
+        android:padding="0dp"
+        android:tint="@color/grey"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+
+
+</RelativeLayout>

@@ -1,5 +1,7 @@
 package com.dhakasetup.sakib.dhakasetupprototype;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -7,66 +9,82 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.dhakasetup.sakib.dhakasetupprototype.adapter.CartAdapter;
 import com.dhakasetup.sakib.dhakasetupprototype.adapter.HistoryItemAdapter;
+import com.dhakasetup.sakib.dhakasetupprototype.adapter.OrderAdapter;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Data;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Order;
+import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.OrderCustomer;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
 
 public class OrderActivity extends AppCompatActivity {
     Toolbar toolbar;
-    TextView orderid_tv,status,total,disc,net,paid,due,address,open_time,close_time;
+    TextView orderid_tv,servicename,worker,mobile,address,price,status,datetv,quantity;
+    ProgressBar progressBar;
+    String orderid;
+    LinearLayout root;
+    Context context;
+    RatingBar ratingBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
         orderid_tv = findViewById(R.id.order_id);
+        servicename = findViewById(R.id.order_service);
+        worker = findViewById(R.id.order_worker);
+        mobile = findViewById(R.id.order_mobile);
+        address = findViewById(R.id.order_address);
+        price = findViewById(R.id.order_price);
         status = findViewById(R.id.order_status);
-        total = findViewById(R.id.order_total);
-        disc = findViewById(R.id.order_discount);
-        net = findViewById(R.id.order_net);
-        paid = findViewById(R.id.order_paid);
-        due = findViewById(R.id.order_due);
-        address = findViewById(R.id.order_delivery_address);
-        open_time = findViewById(R.id.order_placed);
-        close_time = findViewById(R.id.order_closed);
+        datetv = findViewById(R.id.order_date);
+        quantity = findViewById(R.id.order_qty);
+        progressBar = findViewById(R.id.order_loader);
+        ratingBar = findViewById(R.id.worker_rating_bar);
+        root = findViewById(R.id.order_root);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Back to orders");
 
-        String orderid = getIntent().getStringExtra("order");
-        Order order = getOrder(orderid);
-        orderid_tv.setText(String.valueOf(order.getOrder_sl()+1000));
-        status.setText(order.getStatus());
-        total.setText(String.valueOf(order.getTotal_am()));
-        disc.setText(String.valueOf(order.getDisc_am()));
-        net.setText(String.valueOf(order.getNet_am()));
-        paid.setText(String.valueOf(order.getPaid_am()));
-        due.setText(String.valueOf(order.getDue_am()));
-        address.setText(order.getD_address());
-        open_time.setText(order.getOpen_time().toString());
-        close_time.setText(order.getClose_time().toString());
-        address.setText(order.getD_address());
+        orderid = getIntent().getStringExtra("order_id");
+        context=this;
 
-        if (order.getStatus().equals("Served")){
-            status.setBackgroundColor(ContextCompat.getColor(this,R.color.served));
-        }
-        else if (order.getStatus().equals("Cancelled")){
-            status.setBackgroundColor(ContextCompat.getColor(this,R.color.cancelled));
-        }
+        progressBar.setVisibility(View.VISIBLE);
+        root.setVisibility(View.GONE);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                ratingChange(String.valueOf(rating));
+            }
+        });
+        getOrder();
 
-        RecyclerView recyclerView = findViewById(R.id.order_recycler);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        HistoryItemAdapter adapter = new HistoryItemAdapter(this,orderid);
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -74,20 +92,106 @@ public class OrderActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                onBackPressed();
+                Intent intent = new Intent(this,MainActivity.class);
+                intent.putExtra("fragmentNumber",3);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
 
     }
 
-    public Order getOrder(String orderid){
-        List<Order> orders = Data.getOrderPacket(this).getOrders();
-        for (int i=0; i<orders.size(); i++){
-            if (orders.get(i).getOrder_id().equals(orderid)){
-                return orders.get(i);
+
+    void getOrder(){
+        StringRequest request = new StringRequest(Request.Method.POST,
+                UrlList.orderGet,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("20619", "getOrder: "+response);
+                        try {
+                            JSONArray rootArray = new JSONArray(response);
+                            JSONObject obj = rootArray.getJSONObject(0);
+
+                            orderid_tv.setText(obj.getString("orid"));
+                            status.setText(obj.getString("ostatus"));
+                            servicename.setText(obj.getString("sname"));
+                            worker.setText(obj.getString("wname"));
+                            mobile.setText(obj.getString("wmobile"));
+                            address.setText(obj.getString("oloc"));
+                            datetv.setText(obj.getString("odate"));
+                            price.setText(obj.getString("onet"));
+                            quantity.setText(obj.getString("oqty"));
+                            if (obj.isNull("orworker"))
+                                ratingBar.setRating(new Float(0.00));
+                            else
+                                ratingBar.setRating(Float.valueOf(obj.getString("orworker")));
+
+                            if (status.getText().toString().equals("placed")){
+                                status.setBackgroundColor(ContextCompat.getColor(context,R.color.served));
+                            }
+                            else{
+                                status.setBackgroundColor(ContextCompat.getColor(context,R.color.cancelled));
+                            }
+
+                            progressBar.setVisibility(View.GONE);
+                            root.setVisibility(View.VISIBLE);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
             }
-        }
-        return null;
+        }){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("order_id", orderid);
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+    }
+
+    void ratingChange(final String rating){
+        StringRequest request = new StringRequest(Request.Method.POST,
+//                "http://www.dhakasetup.com/api/prop.php",
+                UrlList.rating,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("2020", "onResponse: "+response);
+                        try {
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("order_id", orderid);
+                params.put("rating", rating);
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(OrderActivity.this);
+        queue.add(request);
     }
 }

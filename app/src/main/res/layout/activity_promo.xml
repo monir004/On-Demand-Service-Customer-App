@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PromoActivity">
+
+    <android.support.design.widget.AppBarLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <include
+
+            layout="@layout/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </include>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/promoET"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:hint="Promo code"/>
+        <Button
+            android:id="@+id/promo_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Apply Promo code"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="20dp"
+            android:background="@color/grey"></View>
+
+        <ProgressBar
+            android:id="@+id/promo_loader"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <LinearLayout
+            android:id="@+id/promo_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginTop="10dp"
+                android:text="Current Promo Code:" />
+            <TextView
+                android:id="@+id/promo_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EID2019"/>
+            <TextView
+                android:id="@+id/promo_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="From 05-6-2019 to 30-6-2019"/>
+            <TextView
+                android:id="@+id/promo_perecent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10% discount (Max 500tk)"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

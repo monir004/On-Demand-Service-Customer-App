@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "58138188377",
+    "firebase_url": "https://dhakasetup-7bce9.firebaseio.com",
+    "project_id": "dhakasetup-7bce9",
+    "storage_bucket": "dhakasetup-7bce9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58138188377:android:c3604b7532536da4",
+        "android_client_info": {
+          "package_name": "com.dhakasetup.sakib.dhakasetupprototype"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "58138188377-cvm463sv3mf064p5lgsi97sqqnm8mdc5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUJdXT_pDKTJI4hGgQHAQ2kJFyXUhFHCY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

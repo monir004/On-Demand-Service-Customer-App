@@ -37,8 +37,8 @@ public class HomeFragment extends Fragment {
         data = new ArrayList<Object>();
 
         AdBanner adBanner = new AdBanner(new ArrayList<String>(),new ArrayList<String>());
-        adBanner.getImageLinks().add("http://dhakasetup.com/images/ad/1503162069.png");
-        adBanner.getImageLinks().add("http://dhakasetup.com/images/ad/1505300653.jpg");
+        adBanner.getImageLinks().add(UrlList.adImage+"1503162069.png");
+        adBanner.getImageLinks().add(UrlList.adImage+"1505300653.jpg");
         data.add(adBanner);
 
         CategoryGrid categoryGrid = new CategoryGrid();
@@ -53,6 +53,7 @@ public class HomeFragment extends Fragment {
         categoryGrid.getItems().add(new CategoryGridItem("Interior Decoration","http://dhakasetup.com/images/category/Electrical56.jpg",8));
         categoryGrid.getItems().add(new CategoryGridItem("Building Maintenance ","http://dhakasetup.com/images/category/Electrical88.jpg",7));*/
         data.add(categoryGrid);
+
 
         List<Trend> trends = Data.getInstance(getContext()).getTrend();
         List<Trend> trends1 = new ArrayList<>();
@@ -77,7 +78,7 @@ public class HomeFragment extends Fragment {
             serviceGroup.setTrend_id(1);
             serviceGroup.setService_group_title(trend.getTrend_name());
             Service srv = Data.getInstance(getContext()).getService(Integer.parseInt(trend.getTrend_srv()));
-            serviceGroup.addItem(new ServiceGroupItem("http://dhakasetup.com/images/services/"+srv.getSrvImage(),srv.getSrvice(),srv.getSrv_sl()));
+            serviceGroup.addItem(new ServiceGroupItem(UrlList.serviceGroup+srv.getSrvImage(),srv.getSrvice(),srv.getSrv_sl()));
         }
         data.add(serviceGroup);
 
@@ -86,7 +87,7 @@ public class HomeFragment extends Fragment {
             serviceGroup.setTrend_id(2);
             serviceGroup.setService_group_title(trend.getTrend_name());
             Service srv = Data.getInstance(getContext()).getService(Integer.parseInt(trend.getTrend_srv()));
-            serviceGroup.addItem(new ServiceGroupItem("http://dhakasetup.com/images/services/"+srv.getSrvImage(),srv.getSrvice(),srv.getSrv_sl()));
+            serviceGroup.addItem(new ServiceGroupItem(UrlList.serviceGroup+srv.getSrvImage(),srv.getSrvice(),srv.getSrv_sl()));
         }
         data.add(serviceGroup);
 
@@ -95,9 +96,10 @@ public class HomeFragment extends Fragment {
             serviceGroup.setTrend_id(3);
             serviceGroup.setService_group_title(trend.getTrend_name());
             Service srv = Data.getInstance(getContext()).getService(Integer.parseInt(trend.getTrend_srv()));
-            serviceGroup.addItem(new ServiceGroupItem("http://dhakasetup.com/images/services/"+srv.getSrvImage(),srv.getSrvice(),srv.getSrv_sl()));
+            serviceGroup.addItem(new ServiceGroupItem(UrlList.serviceGroup+srv.getSrvImage(),srv.getSrvice(),srv.getSrv_sl()));
         }
         data.add(serviceGroup);
+
 
         /*serviceGroup = new ServiceGroup();
         serviceGroup.setService_group_title("360 Painting Service");

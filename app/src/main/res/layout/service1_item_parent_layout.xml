@@ -39,13 +39,15 @@
                 android:text="Window"
                 android:textSize="15sp"
                 android:textColor="#363636"/>
+
             <TextView
+                android:visibility="invisible"
                 android:id="@+id/service1_item_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/service1_item_name"
-                android:textSize="10sp"
-                android:text="starts at ৳ 3000"/>
+                android:text="starts at ৳ 3000"
+                android:textSize="10sp" />
         </LinearLayout>
 
         <Button

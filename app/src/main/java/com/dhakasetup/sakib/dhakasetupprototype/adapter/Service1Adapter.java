@@ -2,6 +2,7 @@ package com.dhakasetup.sakib.dhakasetupprototype.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.dhakasetup.sakib.dhakasetupprototype.R;
 import com.dhakasetup.sakib.dhakasetupprototype.ServiceItemActivity;
+import com.dhakasetup.sakib.dhakasetupprototype.WorkerActivity;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Service;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.ServiceChild;
 import com.squareup.picasso.Picasso;
@@ -23,10 +25,12 @@ public class Service1Adapter extends BaseExpandableListAdapter {
     List<Service> services;
     List<ServiceChild> serviceChildren;
     Context context;
+    SharedPreferences settings;
 
     public Service1Adapter(List<Service> services, Context context) {
         this.services = services;
         this.context = context;
+        settings = context.getSharedPreferences("customer_app", Context.MODE_PRIVATE);
     }
 
     @Override
@@ -83,8 +87,14 @@ public class Service1Adapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 //Toast.makeText(context,services.get(groupPosition).getSrvice(),Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(context, ServiceItemActivity.class);
+                //Intent intent = new Intent(context, ServiceItemActivity.class);
+                if (settings.getString("mobile",null) == null) {
+                    Toast.makeText(context,"Please log in",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(context, WorkerActivity.class);
                 intent.putExtra("srviceID",services.get(groupPosition).getSrv_sl());
+                intent.putExtra("srviceName",services.get(groupPosition).getSrvice());
                 context.startActivity(intent);
             }
         });

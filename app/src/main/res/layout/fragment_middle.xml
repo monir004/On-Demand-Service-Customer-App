@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@color/white"
+            android:foreground="?attr/selectableItemBackground"
             android:orientation="horizontal">
 
             <ImageView
@@ -43,7 +44,7 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:text="Nazmus Sakib"/>
+                    android:text=""/>
                 <TextView
                     android:id="@+id/middle_phone"
                     android:layout_width="wrap_content"
@@ -73,6 +74,8 @@
             android:layout_marginTop="15dp">
 
             <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/notification_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
@@ -108,6 +111,7 @@
                 android:background="@color/greyLight"/>
 
             <LinearLayout
+                android:id="@+id/promo_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"

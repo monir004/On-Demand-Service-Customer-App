@@ -1,6 +1,5 @@
 package com.dhakasetup.sakib.dhakasetupprototype;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,7 +17,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -28,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -41,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     SharedPreferences setting;
     ProgressBar progressBar;
     LinearLayout login;
-    String userid,name,phoneNum,address,email;
+    String userid,name, mobile,address,email,customer_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +57,19 @@ public class ProfileActivity extends AppCompatActivity {
         login.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
-        setting = context.getSharedPreferences("dhakasetup",Context.MODE_PRIVATE);
+        setting = context.getSharedPreferences("customer_app",Context.MODE_PRIVATE);
 
         userid = setting.getString("userid",null);
+        customer_id = setting.getString("customer_id",null);
         name = setting.getString("name",null);
-        phoneNum = setting.getString("phone",null);
+        mobile = setting.getString("mobile",null);
         address = setting.getString("address",null);
         email = setting.getString("email",null);
 
-        setProfile(userid,phoneNum);
+        setProfile(userid, mobile);
 
         name_tv.setText(name);
-        phone_tv.setText(phoneNum);
+        phone_tv.setText(mobile);
         address_tv.setText(address);
         email_tv.setText(email);
 
@@ -237,36 +237,35 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void setProfile(final String userid, final String phoneNum){
         //useridTv.setText(userid);
-//        phoneTv.setText(phoneNum);
+//        phoneTv.setText(mobile);
 //        loginLayout.setVisibility(View.VISIBLE);
 //        logoutLayout.setVisibility(View.GONE);
-        Log.d("profileres","profile api pre loaded "+phoneNum);
+        Log.d("20619","profile api pre loaded "+phoneNum);
 
-        StringRequest request = new StringRequest(Request.Method.GET,
-                "http://www.dhakasetup.com/api/profileget.php?uid="+userid,
+        StringRequest request = new StringRequest(Request.Method.POST,
+                UrlList.profileGet,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONObject res = new JSONObject(response);
-                            boolean found = res.getBoolean("found");
-                            if (found){
-                                String first_name = res.getString("first_name");
-                                String email = res.getString("email");
-                                String address = res.getString("address");
+                            Log.d("20619",response);
+                            JSONArray rootArray = new JSONArray(response);
+                            JSONObject result = rootArray.getJSONObject(0);
+
+                            String first_name = result.getString("name");
+                            String email = result.getString("email");
+                            String address = result.getString("address");
 //                                usernameET.setText(first_name);
 //                                addressET.setText(address);
 //                                emailET.setText(email);
-                                SharedPreferences settings = context.getSharedPreferences("dhakasetup",Context.MODE_PRIVATE);
-                                settings.edit().putString("name",first_name).commit();
-                                settings.edit().putString("address",address).commit();
-                                settings.edit().putString("email",email).commit();
+                            SharedPreferences settings = context.getSharedPreferences("customer_app",Context.MODE_PRIVATE);
+                            settings.edit().putString("name",first_name).commit();
+                            settings.edit().putString("address",address).commit();
+                            settings.edit().putString("email",email).commit();
 
-                                login.setVisibility(View.VISIBLE);
-                                progressBar.setVisibility(View.GONE);
+                            login.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
 
-                            }
-                            Log.d("profileres",response);
 
 
                         } catch (Exception e) {
@@ -276,9 +275,16 @@ public class ProfileActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                error.printStackTrace();
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("mobile",phoneNum);
+                return params;
+            }
+        };
 
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(request);
@@ -286,12 +292,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void profilepost(final String uid, final String firstname, final String phone, final String email, final String address, final String action){
         StringRequest request = new StringRequest(Request.Method.POST,
-                "http://www.dhakasetup.com/api/profilepost.php",
+                UrlList.profilePost,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.d("profileres",response);
+                            Log.d("20619",response);
                             setProfile(uid,phone);
 
 
@@ -302,15 +308,15 @@ public class ProfileActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                error.printStackTrace();
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("uid",uid);
-                params.put("firstname",firstname);
-                params.put("phone",phone);
+                params.put("name",firstname);
+                params.put("mobile",phone);
                 params.put("email",email);
                 params.put("address",address);
                 params.put("action",action);

@@ -9,6 +9,7 @@
         app:showAsAction="always"></item>
     <item
         android:id="@+id/action_cart"
+        android:visible="false"
         android:title="cart"
         android:icon="@drawable/ic_action_cart"
         app:showAsAction="always"></item>

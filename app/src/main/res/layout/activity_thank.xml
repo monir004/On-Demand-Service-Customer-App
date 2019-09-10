@@ -22,83 +22,175 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
     </android.support.v7.widget.Toolbar>
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginVertical="30dp"
-        android:src="@drawable/ic_done_black_24dp"
-        android:background="@drawable/round_circle_green"
-        android:tint="@color/white"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thank You"
-        android:textSize="30sp"
-        android:textColor="@color/black"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/thank_root"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Order placed successfully"
-        android:textSize="15sp"
-        android:textColor="@color/black"/>
-
-    <TextView
-        android:id="@+id/thank_order"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="30dp"
-        android:textSize="20sp"
-        android:text="Order ID : ORD1235856"
-        android:textColor="@color/black"/>
-
-    <TextView
-        android:id="@+id/thank_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="18/11/2018"
-        android:textColor="@color/black"/>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
         <ImageView
-            android:id="@+id/thank_time_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_access_time_black_24dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginVertical="30dp"
+            android:src="@drawable/ic_done_black_24dp"
+            android:background="@drawable/round_circle_green"
+            android:tint="@color/white"/>
+
         <TextView
-            android:id="@+id/thank_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/thank_time_icon"
+            android:text="Thank You"
+            android:textSize="30sp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order placed successfully"
+            android:textSize="15sp"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="30dp"
+                android:textSize="20sp"
+                android:text="Order ID : "
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/thank_order_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="30dp"
+                android:textSize="20sp"
+                android:text="1"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/thank_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:textColor="@color/black"
-            android:text="12:00PM - 3:00PM"/>
-    </RelativeLayout>
+            android:text="30/6/2019"
+            android:textColor="@color/black"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/thank_time_icon6"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_build_black_24dp"/>
+            <TextView
+                android:id="@+id/thank_service"
+                android:layout_width="wrap_content"
+                android:maxWidth="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/thank_time_icon6"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:text="Ac service"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/thank_time_icon7"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_attach_money_black_24dp"/>
+            <TextView
+                android:id="@+id/thank_price"
+                android:layout_width="wrap_content"
+                android:maxWidth="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/thank_time_icon7"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:text="100"/>
+        </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:text="We will get back to you shortly"
-        android:textColor="@color/black"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/thank_time_icon2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_person_black_24dp"/>
+            <TextView
+                android:id="@+id/thank_worker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/thank_time_icon2"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:text="Sohel Rana"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp">
+            <ImageView
+                android:id="@+id/thank_time_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_phone_black_24dp"/>
+            <TextView
+                android:id="@+id/thank_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/thank_time_icon"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:text="+8801715431645"/>
+        </RelativeLayout>
 
-    <Button
-        android:id="@+id/thank_cont"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="Continue shopping"
-        android:textAllCaps="true"
-        android:layout_marginTop="40dp"
-        android:background="@color/colorAccent"
-        android:textColor="@color/white"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="Our serviceman will get back to you shortly"
+            android:textColor="@color/black"/>
+
+        <Button
+            android:id="@+id/thank_cont"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="See order details"
+            android:textAllCaps="true"
+            android:layout_marginTop="40dp"
+            android:background="@color/colorAccent"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/thank_progress"
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

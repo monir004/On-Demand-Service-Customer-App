@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.dhakasetup.sakib.dhakasetupprototype.R;
 import com.dhakasetup.sakib.dhakasetupprototype.Service1Activity;
+import com.dhakasetup.sakib.dhakasetupprototype.WorkerActivity;
 import com.dhakasetup.sakib.dhakasetupprototype.model.AdBanner;
 import com.dhakasetup.sakib.dhakasetupprototype.model.CategoryGrid;
 import com.dhakasetup.sakib.dhakasetupprototype.model.ServiceGroup;
@@ -126,9 +127,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     @Override
                     public void onClick(View v) {
                         //Toast.makeText(context,""+serviceGroup.getTrend_id(),Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(context, Service1Activity.class);
+                        Intent intent = new Intent(context, WorkerActivity.class);
                         intent.putExtra("trend",serviceGroup.getTrend_id());
-                        context.startActivity(intent);
+                        //context.startActivity(intent);
                     }
                 });
                 break;

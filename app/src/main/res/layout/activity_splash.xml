@@ -12,13 +12,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_weight="3">
         <ImageView
             android:id="@+id/coverlogo"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/cover"/>
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/logoaust"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:text="CSE4250 Fall-2018"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:text="Customer App"/>
     </LinearLayout>
 
     <LinearLayout
@@ -59,11 +74,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="www.dhakasetup.com"/>
+                android:text="www.aust.edu"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
 

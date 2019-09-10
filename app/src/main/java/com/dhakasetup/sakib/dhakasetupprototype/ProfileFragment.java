@@ -59,9 +59,9 @@ public class ProfileFragment extends Fragment {
         });
         /*settings = getActivity().getSharedPreferences("dhakasetup",Context.MODE_PRIVATE);
         userid = settings.getString("userid",null);
-        phoneNum = settings.getString("phone",null);
+        mobile = settings.getString("phone",null);
         if(userid != null){
-            setProfile(userid,phoneNum);
+            getProfile(userid,mobile);
         }
         else {
             loginLayout.setVisibility(View.GONE);
@@ -106,16 +106,17 @@ public class ProfileFragment extends Fragment {
         });*/
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Profile");
 
         return view;
     }
 
-    /*public void setProfile(final String userid, final String phoneNum){
+    /*public void getProfile(final String userid, final String mobile){
         //useridTv.setText(userid);
-        phoneTv.setText(phoneNum);
+        phoneTv.setText(mobile);
         loginLayout.setVisibility(View.VISIBLE);
         logoutLayout.setVisibility(View.GONE);
-        Log.d("profileres","profile api pre loaded "+phoneNum);
+        Log.d("profileres","profile api pre loaded "+mobile);
 
         StringRequest request = new StringRequest(Request.Method.GET,
                 "http://www.dhakasetup.com/api/profileget.php?uid="+userid,
@@ -139,7 +140,7 @@ public class ProfileFragment extends Fragment {
 
                             }
                             else {
-                                profilepost(userid,"---",phoneNum,"---","---","0");
+                                profilepost(userid,"---",mobile,"---","---","0");
 
                             }
                             Log.d("profileres",response);
@@ -168,7 +169,7 @@ public class ProfileFragment extends Fragment {
                     public void onResponse(String response) {
                         try {
                             Log.d("profileres",response);
-                            setProfile(uid,phone);
+                            getProfile(uid,phone);
 
 
                         } catch (Exception e) {

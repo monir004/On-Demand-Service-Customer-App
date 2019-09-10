@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -15,6 +16,7 @@ import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dhakasetup.sakib.dhakasetupprototype.SplashActivity;
+import com.dhakasetup.sakib.dhakasetupprototype.UrlList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -166,12 +168,18 @@ public class Data {
 
     public  void load(final Context context) {
 
+
         StringRequest request = new StringRequest(Request.Method.GET,
-                "http://www.dhakasetup.com/api/prop.php",
+//                "http://www.dhakasetup.com/api/prop.php",
+                UrlList.prop,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            Log.d("20619", "onResponse: localhost inside"+response);
+                            //        String catimageURL = "http://dhakasetup.com/images/category/";
+                            String catimageURL = UrlList.catimageURL;
+
                             List<Category> categoryList = new ArrayList<>();
                             JSONObject rootObject = new JSONObject(response);
                             int categoryCounter = rootObject.getInt("categoryCounter");
@@ -179,9 +187,9 @@ public class Data {
                             for (int i = 0; i < categoryArray.length(); i++){
                                 JSONObject categoryObj = categoryArray.getJSONObject(i);
                                 Category category = new Category();
-                                category.setCat_id(categoryObj.getString("cat_id"));
-                                category.setCat_name(categoryObj.getString("cat_name"));
-                                category.setCat_image("http://dhakasetup.com/images/category/"+categoryObj.getString("cat_image"));
+                                category.setCat_id(categoryObj.getString("category_id"));
+                                category.setCat_name(categoryObj.getString("name"));
+                                category.setCat_image(catimageURL+categoryObj.getString("image_url"));
                                 //category.setSer_counter(categoryObj.getInt("serviceCounter"));
                                 //Log.d("categoryOld","*** "+ category.getCat_name()+" has "+ category.getSer_counter()+" services ****");
                                 List<Subcat> subcatList = new ArrayList<>();
@@ -189,8 +197,8 @@ public class Data {
 
                                 for (int j = 0; j< subcatArray.length(); j++){
                                     JSONObject subcatObj = subcatArray.getJSONObject(j);
-                                    String subcat_id = subcatObj.getString("subcat_id");
-                                    String subcat_name =subcatObj.getString("subcat_name");
+                                    String subcat_id = subcatObj.getString("subcategory_id");
+                                    String subcat_name =subcatObj.getString("name");
                                     Subcat subcat = new Subcat(subcat_id,subcat_name);
                                     List<Service> srvList = new ArrayList<>();
                                     int srvCounter = subcatObj.getInt("srvCounter");
@@ -201,12 +209,13 @@ public class Data {
 
                                     for (int k = 0; k < srvArray.length(); k++){
                                         JSONObject srvObject = srvArray.getJSONObject(k);
-                                        String srv_sl = srvObject.getString("srv_sl");
-                                        String srvice = srvObject.getString("srvice");
-                                        String srvDetails = srvObject.getString("srvDetails");
-                                        String srvPrice = srvObject.getString("srvPrice");
-                                        String srvImage = srvObject.getString("srvImage");
+                                        String srv_sl = srvObject.getString("service_id");
+                                        String srvice = srvObject.getString("name");
+                                        String srvDetails = srvObject.getString("description");
+                                        String srvPrice = "100";
+                                        String srvImage = srvObject.getString("image_url");
                                         Service srv = new Service(srv_sl,srvice,srvDetails,srvPrice,srvImage);
+                                        /*
                                         int propCounter = srvObject.getInt("propCounter");
                                         if (propCounter == 0);
                                         List<ServiceProp> propList = new ArrayList<>();
@@ -224,6 +233,7 @@ public class Data {
                                             propList.add(prop);
                                         }
                                         srv.setServiceProps(propList);
+                                        */
                                         srvList.add(srv);
                                     }
 
@@ -234,6 +244,7 @@ public class Data {
                                 categoryList.add(category);
 
                             }
+
 
                             int trendCounter = rootObject.getInt("trendCounter");
                             JSONArray trendArray = rootObject.getJSONArray("trendArray");
@@ -246,6 +257,7 @@ public class Data {
                                 trend.setTrend_srv(trendObj.getString("srv_sl"));
                                 trendList.add(trend);
                             }
+
 
                             categories = categoryList;
                             trends = trendList;

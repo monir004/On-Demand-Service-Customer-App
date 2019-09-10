@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,6 +28,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Data;
 import com.facebook.accountkit.Account;
 import com.facebook.accountkit.AccountKit;
@@ -34,9 +44,15 @@ import com.facebook.accountkit.AccountKitLoginResult;
 import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
 import com.facebook.accountkit.ui.LoginType;
-import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.iid.FirebaseInstanceId;
+//import com.google.android.gms.common.GoogleApiAvailability;
 
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,11 +75,20 @@ public class MainActivity extends AppCompatActivity {
         Data data = Data.getInstance(this);
         data.load(this);
 
+
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_action_notification);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment(),"home").commit();
 
+        String recentToken = FirebaseInstanceId.getInstance().getToken();
+        String user_phone = getSharedPreferences("dhakasetup",MODE_PRIVATE).getString("phone",null);
+        if (user_phone != null){
+            //updateToken(user_phone,recentToken,"online");
+        }
+        getSharedPreferences("dhakasetup",MODE_PRIVATE).edit().putString("token",recentToken).commit();
+        Log.d("profileres", "main activity: "+recentToken);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
         //BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -82,9 +107,14 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTag = "order";
                         break;
                     case R.id.nav_personal:
-                        setting = context.getSharedPreferences("dhakasetup",Context.MODE_PRIVATE);
+                        setting = context.getSharedPreferences("customer_app",Context.MODE_PRIVATE);
+
+//                        setting.edit().putString("userid","607905166285584").commit();
+//                        setting.edit().putString("phone","+8801521220462").commit();
+
+
                         String userid = setting.getString("userid",null);
-                        String phoneNum = setting.getString("phone",null);
+                        String mobile = setting.getString("mobile",null);
                         if(userid != null){
                             selectedFragment = new MiddleFragment();
                             fragmentTag = "middle";
@@ -137,6 +167,12 @@ public class MainActivity extends AppCompatActivity {
             Fragment selectedFragment = new ProfileFragment();
             fragmentTag = "profile";
             bottomNavigationView.getMenu().getItem(1).setChecked(true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment,fragmentTag).commit();
+        }
+        else if (fragmentIntent == 3){
+            Fragment selectedFragment = new OrderFragment();
+            fragmentTag = "order";
+            bottomNavigationView.getMenu().getItem(2).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment,fragmentTag).commit();
         }
 
@@ -200,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-        @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE){
@@ -218,14 +254,20 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Account account) {
                             String id = account.getId();
-                            String num = account.getPhoneNumber().toString().substring(3);
-                            settings = getSharedPreferences("dhakasetup", Context.MODE_PRIVATE);
+                            String num = account.getPhoneNumber().toString();
+                            Toast.makeText(getApplicationContext(),num,Toast.LENGTH_SHORT).show();
+                            settings = getSharedPreferences("customer_app", Context.MODE_PRIVATE);
                             settings.edit().putString("userid",id).commit();
-                            settings.edit().putString("phone",num).commit();
+                            settings.edit().putString("mobile",num).commit();
+
+                            updateToken(settings.getString("mobile",null),
+                                    settings.getString("token",null));
+
                             Fragment selectedFragment = new MiddleFragment();
                             fragmentTag = "middle";
                             bottomNavigationView.getMenu().getItem(1).setChecked(true);
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment,fragmentTag).commit();
+
                         }
 
                         @Override
@@ -239,6 +281,57 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    void kitAvoider(){
+        String id = "125";
+        String num = "+8801534635982";
+        Toast.makeText(getApplicationContext(),num,Toast.LENGTH_SHORT).show();
+        settings = getSharedPreferences("customer_app", Context.MODE_PRIVATE);
+        settings.edit().putString("userid",id).commit();
+        settings.edit().putString("mobile",num).commit();
+        Fragment selectedFragment = new MiddleFragment();
+        fragmentTag = "middle";
+        bottomNavigationView.getMenu().getItem(1).setChecked(true);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment,fragmentTag).commit();
+    }
+
+    public void updateToken(final String phone, final String token){
+        Log.d("profileres", "updateToken: "+phone+token);
+        StringRequest request = new StringRequest(Request.Method.POST,
+                UrlList.customerToken,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d("20619",response);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String s = "";
+                try {
+                    s = new String(error.networkResponse.data,"UTF-8");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Log.d("profileres",String.valueOf(error.networkResponse.statusCode+s));
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("mobile",phone);
+                params.put("token",token);
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(request);
     }
 
 

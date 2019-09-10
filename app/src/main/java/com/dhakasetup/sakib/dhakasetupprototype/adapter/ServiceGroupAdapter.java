@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.dhakasetup.sakib.dhakasetupprototype.R;
 import com.dhakasetup.sakib.dhakasetupprototype.Service1Activity;
 import com.dhakasetup.sakib.dhakasetupprototype.ServiceItemActivity;
+import com.dhakasetup.sakib.dhakasetupprototype.WorkerActivity;
 import com.dhakasetup.sakib.dhakasetupprototype.model.CategoryGrid;
 import com.dhakasetup.sakib.dhakasetupprototype.model.ServiceGroup;
 import com.dhakasetup.sakib.dhakasetupprototype.viewholder.CategoryGridItemVH;
@@ -55,8 +56,9 @@ public class ServiceGroupAdapter extends RecyclerView.Adapter<ServiceGroupItemVH
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ServiceItemActivity.class);
+                Intent intent = new Intent(context, WorkerActivity.class);
                 intent.putExtra("srviceID",data.getItems().get(position).getSrv_sl());
+                intent.putExtra("srviceName",data.getItems().get(position).getTitle());
                 context.startActivity(intent);
             }
         });

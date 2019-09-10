@@ -16,6 +16,7 @@ import com.dhakasetup.sakib.dhakasetupprototype.SearchActivity;
 import com.dhakasetup.sakib.dhakasetupprototype.Service1Activity;
 import com.dhakasetup.sakib.dhakasetupprototype.ServiceItemActivity;
 import com.dhakasetup.sakib.dhakasetupprototype.SubcatActivity;
+import com.dhakasetup.sakib.dhakasetupprototype.WorkerActivity;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Category;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Service;
 import com.dhakasetup.sakib.dhakasetupprototype.model.datamodel.Subcat;
@@ -85,8 +86,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchVH> 
             holder.root.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ServiceItemActivity.class);
+                    Intent intent = new Intent(context, WorkerActivity.class);
                     intent.putExtra("srviceID",((Service) obj).getSrv_sl());
+                    intent.putExtra("srviceName",((Service) obj).getSrvice());
                     context.startActivity(intent);
                 }
             });
